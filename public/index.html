@@ -1,0 +1,2469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>GradeMax — Smart Study Optimizer</title>
+
+    <!-- Bootstrap -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <!-- Bootstrap Icons -->
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    >
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+
+        /* =========================
+           GLOBAL
+        ========================= */
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family:
+                Inter,
+                system-ui,
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                sans-serif;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #f8fbff 0%,
+                    #eef5ff 50%,
+                    #f7fbff 100%
+                );
+
+            color: #172033;
+            min-height: 100vh;
+        }
+
+        /* =========================
+           NAVBAR
+        ========================= */
+
+        .navbar-custom {
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid #e5eaf2;
+            padding: 14px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: #172033;
+        }
+
+        .brand-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 13px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #4f46e5,
+                    #2563eb
+                );
+
+            color: white;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 22px;
+
+            box-shadow:
+                0 8px 20px rgba(37, 99, 235, 0.25);
+        }
+
+        .brand-name {
+            font-size: 22px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .brand-name span {
+            color: #4f46e5;
+        }
+
+        .nav-badge {
+            background: #eef2ff;
+            color: #4338ca;
+            padding: 7px 12px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        /* =========================
+           HERO
+        ========================= */
+
+        .hero {
+            padding: 55px 0 35px;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+
+            background: #ecfdf5;
+            color: #047857;
+
+            border: 1px solid #bbf7d0;
+
+            padding: 7px 13px;
+            border-radius: 999px;
+
+            font-size: 13px;
+            font-weight: 700;
+
+            margin-bottom: 17px;
+        }
+
+        .hero h1 {
+            font-size: clamp(34px, 5vw, 58px);
+            line-height: 1.05;
+            font-weight: 850;
+            letter-spacing: -2px;
+
+            margin-bottom: 18px;
+        }
+
+        .hero h1 .gradient-text {
+            background:
+                linear-gradient(
+                    90deg,
+                    #4f46e5,
+                    #2563eb,
+                    #0891b2
+                );
+
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            max-width: 720px;
+            font-size: 17px;
+            line-height: 1.7;
+            color: #667085;
+        }
+
+        /* =========================
+           MAIN CARDS
+        ========================= */
+
+        .main-card {
+            background: white;
+            border: 1px solid #e5eaf2;
+            border-radius: 22px;
+
+            box-shadow:
+                0 18px 50px rgba(15, 23, 42, 0.07);
+
+            overflow: hidden;
+        }
+
+        .card-header-custom {
+            padding: 24px 26px 18px;
+            border-bottom: 1px solid #edf0f5;
+        }
+
+        .card-title {
+            font-size: 20px;
+            font-weight: 800;
+            margin: 0;
+        }
+
+        .card-subtitle {
+            margin: 5px 0 0;
+            color: #7a8496;
+            font-size: 14px;
+        }
+
+        .card-body-custom {
+            padding: 26px;
+        }
+
+        /* =========================
+           INPUTS
+        ========================= */
+
+        .form-label {
+            font-size: 13px;
+            font-weight: 750;
+            color: #344054;
+            margin-bottom: 8px;
+        }
+
+        .form-control,
+        .form-select {
+            min-height: 48px;
+            border-radius: 12px;
+            border: 1px solid #dce2eb;
+            padding: 10px 14px;
+            font-size: 14px;
+
+            transition:
+                border-color 0.2s,
+                box-shadow 0.2s;
+        }
+
+        .form-control:focus,
+        .form-select:focus {
+            border-color: #6366f1;
+
+            box-shadow:
+                0 0 0 4px rgba(99, 102, 241, 0.10);
+        }
+
+        .input-group .form-control {
+            border-radius: 12px;
+        }
+
+        .time-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        .time-input {
+            flex: 1;
+        }
+
+        .time-label {
+            display: block;
+            font-size: 11px;
+            color: #98a2b3;
+            margin-top: 5px;
+            margin-left: 3px;
+        }
+
+        /* =========================
+           ADD ASSIGNMENT
+        ========================= */
+
+        .assignment-box {
+            background: #f8faff;
+            border: 1px solid #e4eaf5;
+            border-radius: 18px;
+            padding: 20px;
+            margin-top: 25px;
+        }
+
+        .assignment-box-title {
+            font-size: 16px;
+            font-weight: 800;
+            margin-bottom: 18px;
+        }
+
+        .btn-primary-custom {
+            border: none;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #4f46e5,
+                    #2563eb
+                );
+
+            color: white;
+
+            border-radius: 12px;
+
+            min-height: 48px;
+
+            font-weight: 750;
+
+            padding: 10px 20px;
+
+            box-shadow:
+                0 8px 18px rgba(37, 99, 235, 0.22);
+
+            transition:
+                transform 0.2s,
+                box-shadow 0.2s;
+        }
+
+        .btn-primary-custom:hover {
+            color: white;
+
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 12px 25px rgba(37, 99, 235, 0.28);
+        }
+
+        .btn-secondary-custom {
+            background: white;
+            border: 1px solid #dce2eb;
+            color: #344054;
+
+            border-radius: 12px;
+            min-height: 48px;
+
+            font-weight: 700;
+        }
+
+        .btn-secondary-custom:hover {
+            background: #f8fafc;
+            border-color: #cbd5e1;
+        }
+
+        /* =========================
+           ASSIGNMENT LIST
+        ========================= */
+
+        .assignment-list {
+            margin-top: 22px;
+        }
+
+        .assignment-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 15px;
+
+            background: white;
+
+            border: 1px solid #e5eaf2;
+
+            border-radius: 15px;
+
+            padding: 15px 17px;
+
+            margin-bottom: 10px;
+
+            transition:
+                transform 0.2s,
+                box-shadow 0.2s;
+        }
+
+        .assignment-item:hover {
+            transform: translateY(-1px);
+
+            box-shadow:
+                0 8px 20px rgba(15, 23, 42, 0.06);
+        }
+
+        .assignment-info {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            min-width: 0;
+        }
+
+        .assignment-number {
+            width: 38px;
+            height: 38px;
+
+            border-radius: 11px;
+
+            background: #eef2ff;
+            color: #4338ca;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-weight: 800;
+            font-size: 13px;
+
+            flex-shrink: 0;
+        }
+
+        .assignment-name {
+            font-weight: 750;
+            font-size: 14px;
+
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .assignment-meta {
+            color: #7a8496;
+            font-size: 12px;
+            margin-top: 3px;
+        }
+
+        .remove-btn {
+            border: none;
+            background: #fff1f2;
+            color: #e11d48;
+
+            width: 38px;
+            height: 38px;
+
+            border-radius: 10px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            flex-shrink: 0;
+        }
+
+        .remove-btn:hover {
+            background: #ffe4e6;
+        }
+
+        .empty-list {
+            text-align: center;
+            padding: 25px 10px;
+
+            color: #98a2b3;
+
+            border: 1px dashed #d9e0ea;
+            border-radius: 14px;
+
+            background: #fafcff;
+        }
+
+        /* =========================
+           CALCULATE BUTTON
+        ========================= */
+
+        .calculate-area {
+            margin-top: 25px;
+            padding-top: 22px;
+
+            border-top: 1px solid #edf0f5;
+        }
+
+        .calculate-btn {
+            width: 100%;
+            min-height: 58px;
+
+            border: none;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #4f46e5,
+                    #2563eb
+                );
+
+            color: white;
+
+            border-radius: 14px;
+
+            font-size: 15px;
+            font-weight: 800;
+
+            box-shadow:
+                0 10px 25px rgba(37, 99, 235, 0.22);
+
+            transition:
+                transform 0.2s,
+                box-shadow 0.2s;
+        }
+
+        .calculate-btn:hover {
+            color: white;
+
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 15px 32px rgba(37, 99, 235, 0.30);
+        }
+
+        .calculate-btn:disabled {
+            opacity: 0.65;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* =========================
+           RESULTS
+        ========================= */
+
+        .result-card {
+            height: 100%;
+        }
+
+        .initial-state {
+            min-height: 540px;
+
+            display: flex;
+            flex-direction: column;
+
+            align-items: center;
+            justify-content: center;
+
+            text-align: center;
+
+            padding: 35px;
+        }
+
+        .initial-icon {
+            width: 82px;
+            height: 82px;
+
+            border-radius: 24px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #eef2ff,
+                    #e0f2fe
+                );
+
+            color: #4f46e5;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 36px;
+
+            margin-bottom: 20px;
+        }
+
+        .initial-state h3 {
+            font-size: 21px;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+
+        .initial-state p {
+            color: #7a8496;
+            max-width: 390px;
+            line-height: 1.65;
+            font-size: 14px;
+        }
+
+        /* =========================
+           RESULT HEADER
+        ========================= */
+
+        .result-summary {
+            background:
+                linear-gradient(
+                    135deg,
+                    #eef2ff,
+                    #eff6ff
+                );
+
+            border: 1px solid #dbe5ff;
+
+            border-radius: 17px;
+
+            padding: 20px;
+
+            margin-bottom: 20px;
+        }
+
+        .result-summary-label {
+            color: #667085;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .result-summary-value {
+            font-size: 31px;
+            font-weight: 850;
+            color: #312e81;
+            margin-top: 4px;
+        }
+
+        .result-summary-sub {
+            font-size: 13px;
+            color: #667085;
+            margin-top: 3px;
+        }
+
+        /* =========================
+           STATS
+        ========================= */
+
+        .stats-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 12px;
+
+            margin-bottom: 22px;
+        }
+
+        .stat-box {
+            background: #fafbfc;
+
+            border: 1px solid #e8edf3;
+
+            border-radius: 14px;
+
+            padding: 15px;
+        }
+
+        .stat-label {
+            font-size: 11px;
+            color: #98a2b3;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .stat-value {
+            font-size: 18px;
+            font-weight: 800;
+            margin-top: 5px;
+            color: #1d2939;
+        }
+
+        /* =========================
+           SELECTED ASSIGNMENTS
+        ========================= */
+
+        .section-heading {
+            font-size: 14px;
+            font-weight: 800;
+
+            margin-bottom: 12px;
+        }
+
+        .selected-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            gap: 12px;
+
+            padding: 13px 14px;
+
+            border: 1px solid #e8edf3;
+            border-radius: 12px;
+
+            margin-bottom: 8px;
+        }
+
+        .selected-item-name {
+            font-size: 13px;
+            font-weight: 750;
+        }
+
+        .selected-item-time {
+            color: #7a8496;
+            font-size: 11px;
+            margin-top: 3px;
+        }
+
+        .selected-item-marks {
+            background: #ecfdf3;
+            color: #047857;
+
+            padding: 6px 9px;
+
+            border-radius: 8px;
+
+            font-size: 12px;
+            font-weight: 800;
+
+            white-space: nowrap;
+        }
+
+        /* =========================
+           PROGRESS
+        ========================= */
+
+        .progress-section {
+            margin-top: 22px;
+        }
+
+        .progress-top {
+            display: flex;
+            justify-content: space-between;
+
+            font-size: 12px;
+            font-weight: 700;
+
+            margin-bottom: 8px;
+        }
+
+        .custom-progress {
+            height: 9px;
+
+            background: #edf1f7;
+
+            border-radius: 999px;
+
+            overflow: hidden;
+        }
+
+        .custom-progress-bar {
+            height: 100%;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #4f46e5,
+                    #2563eb
+                );
+
+            border-radius: 999px;
+
+            transition: width 0.6s ease;
+        }
+
+        /* =========================
+           CHART
+        ========================= */
+
+        .chart-container {
+            position: relative;
+
+            height: 260px;
+
+            margin-top: 25px;
+        }
+
+        /* =========================
+           ALGORITHM INFO
+        ========================= */
+
+        .algorithm-box {
+            margin-top: 22px;
+
+            background: #f8fafc;
+
+            border: 1px solid #e6ebf2;
+
+            border-radius: 14px;
+
+            padding: 15px;
+        }
+
+        .algorithm-title {
+            font-size: 12px;
+
+            color: #667085;
+
+            font-weight: 700;
+
+            text-transform: uppercase;
+
+            margin-bottom: 5px;
+        }
+
+        .algorithm-name {
+            font-size: 13px;
+
+            font-weight: 800;
+
+            color: #344054;
+        }
+
+        .complexity {
+            font-size: 12px;
+            color: #7a8496;
+
+            margin-top: 5px;
+        }
+
+        /* =========================
+           ALERT
+        ========================= */
+
+        .error-alert {
+            display: none;
+
+            border: none;
+
+            border-radius: 12px;
+
+            background: #fff1f2;
+
+            color: #be123c;
+
+            padding: 13px 15px;
+
+            font-size: 13px;
+
+            margin-top: 15px;
+        }
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        footer {
+            padding: 35px 0 40px;
+
+            color: #98a2b3;
+
+            font-size: 12px;
+
+            text-align: center;
+        }
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 991px) {
+
+            .hero {
+                padding-top: 38px;
+            }
+
+            .result-card {
+                margin-top: 25px;
+            }
+
+        }
+
+        @media (max-width: 575px) {
+
+            .hero h1 {
+                letter-spacing: -1px;
+            }
+
+            .card-header-custom,
+            .card-body-custom {
+                padding: 20px;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .time-group {
+                gap: 7px;
+            }
+
+            .assignment-item {
+                padding: 12px;
+            }
+
+            .initial-state {
+                min-height: 420px;
+            }
+
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <!-- =========================
+         NAVBAR
+    ========================== -->
+
+    <nav class="navbar-custom">
+        <div class="container">
+
+            <div class="d-flex justify-content-between align-items-center">
+
+                <a href="#" class="brand">
+
+                    <div class="brand-icon">
+                        <i class="bi bi-mortarboard-fill"></i>
+                    </div>
+
+                    <div class="brand-name">
+                        Grade<span>Max</span>
+                    </div>
+
+                </a>
+
+                <div class="nav-badge">
+                    <i class="bi bi-stars"></i>
+                    Smart Study Optimizer
+                </div>
+
+            </div>
+
+        </div>
+    </nav>
+
+
+    <!-- =========================
+         HERO
+    ========================== -->
+
+    <section class="hero">
+
+        <div class="container">
+
+            <div class="hero-badge">
+                <i class="bi bi-lightning-charge-fill"></i>
+                Dynamic Programming Powered
+            </div>
+
+            <h1>
+                Study smarter.<br>
+                <span class="gradient-text">
+                    Maximize your marks.
+                </span>
+            </h1>
+
+            <p>
+                GradeMax analyzes your assignments, expected marks,
+                completion time and available study time to find the
+                most valuable combination of work you can complete.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         MAIN CONTENT
+    ========================== -->
+
+    <main class="container pb-4">
+
+        <div class="row g-4">
+
+
+            <!-- =========================
+                 LEFT SIDE
+            ========================== -->
+
+            <div class="col-lg-6">
+
+                <div class="main-card">
+
+                    <div class="card-header-custom">
+
+                        <h2 class="card-title">
+                            <i class="bi bi-sliders2 me-2 text-primary"></i>
+                            Study Configuration
+                        </h2>
+
+                        <p class="card-subtitle">
+                            Enter your details and study constraints.
+                        </p>
+
+                    </div>
+
+
+                    <div class="card-body-custom">
+
+
+                        <!-- STUDENT NAME -->
+
+                        <div class="mb-4">
+
+                            <label
+                                for="studentName"
+                                class="form-label"
+                            >
+                                Student Name
+                            </label>
+
+                            <input
+                                type="text"
+                                id="studentName"
+                                class="form-control"
+                                placeholder="Enter your name"
+                            >
+
+                        </div>
+
+
+                        <!-- AVAILABLE TIME -->
+
+                        <div class="mb-4">
+
+                            <label class="form-label">
+                                <i class="bi bi-clock me-1"></i>
+                                Time I Have
+                            </label>
+
+                            <div class="time-group">
+
+                                <div class="time-input">
+
+                                    <input
+                                        type="number"
+                                        id="availableHours"
+                                        class="form-control"
+                                        min="0"
+                                        max="24"
+                                        value="3"
+                                        placeholder="Hours"
+                                    >
+
+                                    <span class="time-label">
+                                        Hours
+                                    </span>
+
+                                </div>
+
+
+                                <div class="time-input">
+
+                                    <input
+                                        type="number"
+                                        id="availableMinutes"
+                                        class="form-control"
+                                        min="0"
+                                        max="59"
+                                        value="0"
+                                        placeholder="Minutes"
+                                    >
+
+                                    <span class="time-label">
+                                        Minutes
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- ASSIGNMENT SECTION -->
+
+                        <div class="assignment-box">
+
+                            <div class="assignment-box-title">
+
+                                <i class="bi bi-journal-text me-1 text-primary"></i>
+
+                                Add Assignment / Subject
+
+                            </div>
+
+
+                            <!-- SUBJECT -->
+
+                            <div class="mb-3">
+
+                                <label
+                                    for="subjectName"
+                                    class="form-label"
+                                >
+                                    Subject / Assignment Name
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="subjectName"
+                                    class="form-control"
+                                    placeholder="Example: Data Structures"
+                                >
+
+                            </div>
+
+
+                            <!-- MARKS -->
+
+                            <div class="mb-3">
+
+                                <label
+                                    for="marks"
+                                    class="form-label"
+                                >
+                                    Expected Marks
+                                </label>
+
+                                <input
+                                    type="number"
+                                    id="marks"
+                                    class="form-control"
+                                    min="0"
+                                    step="0.01"
+                                    placeholder="Example: 20"
+                                >
+
+                            </div>
+
+
+                            <!-- DURATION -->
+
+                            <div class="mb-3">
+
+                                <label class="form-label">
+                                    Duration to Complete
+                                </label>
+
+                                <div class="time-group">
+
+                                    <div class="time-input">
+
+                                        <input
+                                            type="number"
+                                            id="durationHours"
+                                            class="form-control"
+                                            min="0"
+                                            max="24"
+                                            value="1"
+                                            placeholder="Hours"
+                                        >
+
+                                        <span class="time-label">
+                                            Hours
+                                        </span>
+
+                                    </div>
+
+
+                                    <div class="time-input">
+
+                                        <input
+                                            type="number"
+                                            id="durationMinutes"
+                                            class="form-control"
+                                            min="0"
+                                            max="59"
+                                            value="0"
+                                            placeholder="Minutes"
+                                        >
+
+                                        <span class="time-label">
+                                            Minutes
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                            <button
+                                type="button"
+                                class="btn btn-primary-custom w-100"
+                                onclick="addAssignment()"
+                            >
+
+                                <i class="bi bi-plus-circle me-1"></i>
+
+                                Add Assignment
+
+                            </button>
+
+                        </div>
+
+
+                        <!-- ASSIGNMENT LIST -->
+
+                        <div class="assignment-list">
+
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+
+                                <div class="section-heading mb-0">
+                                    Your Assignments
+                                </div>
+
+                                <span
+                                    id="assignmentCount"
+                                    class="badge rounded-pill text-bg-light"
+                                >
+                                    0
+                                </span>
+
+                            </div>
+
+
+                            <div id="assignmentList">
+
+                                <div class="empty-list">
+
+                                    <i class="bi bi-inbox fs-4 d-block mb-2"></i>
+
+                                    No assignments added yet.
+
+                                    <br>
+
+                                    Add your subjects above.
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- ERROR -->
+
+                        <div
+                            id="errorAlert"
+                            class="error-alert"
+                        ></div>
+
+
+                        <!-- CALCULATE -->
+
+                        <div class="calculate-area">
+
+                            <button
+                                type="button"
+                                id="calculateBtn"
+                                class="calculate-btn"
+                                onclick="runOptimization()"
+                            >
+
+                                <i class="bi bi-magic me-2"></i>
+
+                                Calculate Optimal Study Plan
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =========================
+                 RIGHT SIDE
+            ========================== -->
+
+            <div class="col-lg-6">
+
+                <div class="main-card result-card">
+
+                    <div class="card-header-custom">
+
+                        <h2 class="card-title">
+
+                            <i class="bi bi-graph-up-arrow me-2 text-success"></i>
+
+                            Optimization Result
+
+                        </h2>
+
+                        <p class="card-subtitle">
+                            Your personalized study plan.
+                        </p>
+
+                    </div>
+
+
+                    <!-- INITIAL STATE -->
+
+                    <div
+                        id="initialState"
+                        class="initial-state"
+                    >
+
+                        <div class="initial-icon">
+
+                            <i class="bi bi-stars"></i>
+
+                        </div>
+
+                        <h3>
+                            Your optimal plan will appear here
+                        </h3>
+
+                        <p>
+                            Add your assignments and available study
+                            time, then click the button to let GradeMax
+                            calculate the combination that maximizes
+                            your expected marks.
+                        </p>
+
+                    </div>
+
+
+                    <!-- RESULTS -->
+
+                    <div
+                        id="resultsContent"
+                        class="card-body-custom"
+                        style="display: none;"
+                    >
+
+
+                        <!-- MAIN SCORE -->
+
+                        <div class="result-summary">
+
+                            <div class="result-summary-label">
+                                Maximum Expected Marks
+                            </div>
+
+                            <div
+                                id="maxMarks"
+                                class="result-summary-value"
+                            >
+                                0
+                            </div>
+
+                            <div
+                                id="studentResultText"
+                                class="result-summary-sub"
+                            >
+                                Optimal study selection
+                            </div>
+
+                        </div>
+
+
+                        <!-- STATS -->
+
+                        <div class="stats-grid">
+
+                            <div class="stat-box">
+
+                                <div class="stat-label">
+                                    Available
+                                </div>
+
+                                <div
+                                    id="availableTime"
+                                    class="stat-value"
+                                >
+                                    0h
+                                </div>
+
+                            </div>
+
+
+                            <div class="stat-box">
+
+                                <div class="stat-label">
+                                    Used
+                                </div>
+
+                                <div
+                                    id="usedTime"
+                                    class="stat-value"
+                                >
+                                    0h
+                                </div>
+
+                            </div>
+
+
+                            <div class="stat-box">
+
+                                <div class="stat-label">
+                                    Remaining
+                                </div>
+
+                                <div
+                                    id="remainingTime"
+                                    class="stat-value"
+                                >
+                                    0h
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- SELECTED ASSIGNMENTS -->
+
+                        <div class="section-heading">
+
+                            <i class="bi bi-check2-circle text-success me-1"></i>
+
+                            Recommended Work
+
+                        </div>
+
+
+                        <div id="selectedList"></div>
+
+
+                        <!-- TIME PROGRESS -->
+
+                        <div class="progress-section">
+
+                            <div class="progress-top">
+
+                                <span>
+                                    Study Time Utilization
+                                </span>
+
+                                <span id="timePercentage">
+                                    0%
+                                </span>
+
+                            </div>
+
+                            <div class="custom-progress">
+
+                                <div
+                                    id="timeProgress"
+                                    class="custom-progress-bar"
+                                    style="width: 0%"
+                                ></div>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- CHART -->
+
+                        <div class="section-heading mt-4">
+
+                            <i class="bi bi-bar-chart-line me-1 text-primary"></i>
+
+                            Marks Contribution
+
+                        </div>
+
+                        <div class="chart-container">
+
+                            <canvas id="efficiencyChart"></canvas>
+
+                        </div>
+
+
+                        <!-- ALGORITHM -->
+
+                        <div class="algorithm-box">
+
+                            <div class="algorithm-title">
+                                Algorithm Used
+                            </div>
+
+                            <div
+                                id="algorithmName"
+                                class="algorithm-name"
+                            >
+                                0/1 Knapsack using Dynamic Programming
+                            </div>
+
+                            <div
+                                id="complexityText"
+                                class="complexity"
+                            >
+                                Time Complexity: O(n × W)
+                                <br>
+                                Space Complexity: O(W)
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <!-- =========================
+         FOOTER
+    ========================== -->
+
+    <footer>
+
+        <div class="container">
+
+            <div>
+                GradeMax © 2026
+            </div>
+
+            <div class="mt-1">
+                Smart study optimization using Dynamic Programming
+            </div>
+
+        </div>
+
+    </footer>
+
+
+    <!-- =========================
+         JAVASCRIPT
+    ========================== -->
+
+    <script>
+
+        /* =========================================
+           GLOBAL VARIABLES
+        ========================================= */
+
+        let assignments = [];
+
+        let efficiencyChart = null;
+
+
+        /* =========================================
+           DOM ELEMENTS
+        ========================================= */
+
+        const studentNameInput =
+            document.getElementById("studentName");
+
+        const availableHoursInput =
+            document.getElementById("availableHours");
+
+        const availableMinutesInput =
+            document.getElementById("availableMinutes");
+
+        const subjectNameInput =
+            document.getElementById("subjectName");
+
+        const marksInput =
+            document.getElementById("marks");
+
+        const durationHoursInput =
+            document.getElementById("durationHours");
+
+        const durationMinutesInput =
+            document.getElementById("durationMinutes");
+
+        const assignmentList =
+            document.getElementById("assignmentList");
+
+        const assignmentCount =
+            document.getElementById("assignmentCount");
+
+        const errorAlert =
+            document.getElementById("errorAlert");
+
+        const calculateBtn =
+            document.getElementById("calculateBtn");
+
+
+        /* =========================================
+           FORMAT TIME
+        ========================================= */
+
+        function formatTime(totalMinutes) {
+
+            totalMinutes = Number(totalMinutes) || 0;
+
+            const hours =
+                Math.floor(totalMinutes / 60);
+
+            const minutes =
+                totalMinutes % 60;
+
+            if (hours === 0) {
+                return `${minutes} min`;
+            }
+
+            if (minutes === 0) {
+                return `${hours}h`;
+            }
+
+            return `${hours}h ${minutes}m`;
+        }
+
+
+        /* =========================================
+           SHOW ERROR
+        ========================================= */
+
+        function showError(message) {
+
+            errorAlert.textContent = message;
+
+            errorAlert.style.display = "block";
+
+            errorAlert.scrollIntoView({
+                behavior: "smooth",
+                block: "center"
+            });
+
+        }
+
+
+        /* =========================================
+           HIDE ERROR
+        ========================================= */
+
+        function hideError() {
+
+            errorAlert.style.display = "none";
+
+            errorAlert.textContent = "";
+
+        }
+
+
+        /* =========================================
+           ESCAPE HTML
+        ========================================= */
+
+        function escapeHtml(text) {
+
+            return String(text)
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+
+        }
+
+
+        /* =========================================
+           RENDER ASSIGNMENT LIST
+        ========================================= */
+
+        function renderList() {
+
+            assignmentCount.textContent =
+                assignments.length;
+
+
+            if (assignments.length === 0) {
+
+                assignmentList.innerHTML = `
+
+                    <div class="empty-list">
+
+                        <i class="bi bi-inbox fs-4 d-block mb-2"></i>
+
+                        No assignments added yet.
+
+                        <br>
+
+                        Add your subjects above.
+
+                    </div>
+
+                `;
+
+                return;
+
+            }
+
+
+            assignmentList.innerHTML =
+                assignments
+                    .map((item, index) => {
+
+                        return `
+
+                            <div class="assignment-item">
+
+                                <div class="assignment-info">
+
+                                    <div class="assignment-number">
+                                        ${index + 1}
+                                    </div>
+
+                                    <div>
+
+                                        <div class="assignment-name">
+                                            ${escapeHtml(item.name)}
+                                        </div>
+
+                                        <div class="assignment-meta">
+
+                                            ${formatTime(item.time)}
+
+                                            &nbsp;•&nbsp;
+
+                                            ${item.marks} expected marks
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+
+                                <button
+                                    type="button"
+                                    class="remove-btn"
+                                    onclick="removeAssignment(${index})"
+                                    title="Remove assignment"
+                                >
+
+                                    <i class="bi bi-trash3"></i>
+
+                                </button>
+
+                            </div>
+
+                        `;
+
+                    })
+                    .join("");
+
+        }
+
+
+        /* =========================================
+           ADD ASSIGNMENT
+        ========================================= */
+
+        function addAssignment() {
+
+            hideError();
+
+
+            const name =
+                subjectNameInput.value.trim();
+
+            const marks =
+                Number(marksInput.value);
+
+            const hours =
+                Number(durationHoursInput.value) || 0;
+
+            const minutes =
+                Number(durationMinutesInput.value) || 0;
+
+
+            /* VALIDATION */
+
+            if (!name) {
+
+                showError(
+                    "Please enter a subject or assignment name."
+                );
+
+                subjectNameInput.focus();
+
+                return;
+
+            }
+
+
+            if (
+                marksInput.value === "" ||
+                Number.isNaN(marks) ||
+                marks < 0
+            ) {
+
+                showError(
+                    "Please enter valid expected marks."
+                );
+
+                marksInput.focus();
+
+                return;
+
+            }
+
+
+            if (minutes < 0 || minutes > 59) {
+
+                showError(
+                    "Minutes must be between 0 and 59."
+                );
+
+                durationMinutesInput.focus();
+
+                return;
+
+            }
+
+
+            const totalTime =
+                hours * 60 + minutes;
+
+
+            if (totalTime <= 0) {
+
+                showError(
+                    "Assignment duration must be greater than 0."
+                );
+
+                durationHoursInput.focus();
+
+                return;
+
+            }
+
+
+            /* ADD */
+
+            assignments.push({
+
+                name: name,
+
+                time: totalTime,
+
+                marks: marks
+
+            });
+
+
+            /* CLEAR INPUTS */
+
+            subjectNameInput.value = "";
+
+            marksInput.value = "";
+
+            durationHoursInput.value = "1";
+
+            durationMinutesInput.value = "0";
+
+
+            /* UPDATE LIST */
+
+            renderList();
+
+
+            /* FOCUS */
+
+            subjectNameInput.focus();
+
+        }
+
+
+        /* =========================================
+           REMOVE ASSIGNMENT
+        ========================================= */
+
+        function removeAssignment(index) {
+
+            if (
+                index < 0 ||
+                index >= assignments.length
+            ) {
+                return;
+            }
+
+
+            assignments.splice(index, 1);
+
+            renderList();
+
+        }
+
+
+        /* =========================================
+           RUN OPTIMIZATION
+        ========================================= */
+
+        async function runOptimization() {
+
+            hideError();
+
+
+            const studentName =
+                studentNameInput.value.trim();
+
+
+            const hours =
+                Number(availableHoursInput.value) || 0;
+
+            const minutes =
+                Number(availableMinutesInput.value) || 0;
+
+
+            /* VALIDATE AVAILABLE TIME */
+
+            if (minutes < 0 || minutes > 59) {
+
+                showError(
+                    "Available time minutes must be between 0 and 59."
+                );
+
+                availableMinutesInput.focus();
+
+                return;
+
+            }
+
+
+            const availableTime =
+                hours * 60 + minutes;
+
+
+            if (availableTime <= 0) {
+
+                showError(
+                    "Please enter the amount of time you have."
+                );
+
+                availableHoursInput.focus();
+
+                return;
+
+            }
+
+
+            /* VALIDATE ASSIGNMENTS */
+
+            if (assignments.length === 0) {
+
+                showError(
+                    "Please add at least one assignment."
+                );
+
+                return;
+
+            }
+
+
+            /* CHECK WHETHER ASSIGNMENT FITS */
+
+            const possibleAssignments =
+                assignments.filter(
+                    item => item.time <= availableTime
+                );
+
+
+            if (possibleAssignments.length === 0) {
+
+                showError(
+                    "None of the assignments can be completed within your available study time."
+                );
+
+                return;
+
+            }
+
+
+            /* LOADING STATE */
+
+            calculateBtn.disabled = true;
+
+            calculateBtn.innerHTML = `
+
+                <span
+                    class="spinner-border spinner-border-sm me-2"
+                ></span>
+
+                Calculating Optimal Plan...
+
+            `;
+
+
+            try {
+
+                /* =====================================
+                   SEND DATA TO BACKEND
+                ===================================== */
+
+                const response =
+                    await fetch(
+                        "/api/optimize",
+                        {
+                            method: "POST",
+
+                            headers: {
+                                "Content-Type":
+                                    "application/json"
+                            },
+
+                            body: JSON.stringify({
+
+                                studentName:
+                                    studentName,
+
+                                maxTime:
+                                    availableTime,
+
+                                assignments:
+                                    assignments
+
+                            })
+
+                        }
+                    );
+
+
+                const data =
+                    await response.json();
+
+
+                if (!response.ok || !data.success) {
+
+                    throw new Error(
+                        data.message ||
+                        "Optimization failed."
+                    );
+
+                }
+
+
+                /* =====================================
+                   SHOW RESULT
+                ===================================== */
+
+                renderResults(data);
+
+            }
+
+            catch (error) {
+
+                console.error(error);
+
+                showError(
+                    error.message ||
+                    "Unable to connect to the server."
+                );
+
+            }
+
+            finally {
+
+                calculateBtn.disabled = false;
+
+                calculateBtn.innerHTML = `
+
+                    <i class="bi bi-magic me-2"></i>
+
+                    Calculate Optimal Study Plan
+
+                `;
+
+            }
+
+        }
+
+
+        /* =========================================
+           RENDER RESULTS
+        ========================================= */
+
+        function renderResults(data) {
+
+            document
+                .getElementById("initialState")
+                .style.display = "none";
+
+
+            document
+                .getElementById("resultsContent")
+                .style.display = "block";
+
+
+            /* MAX MARKS */
+
+            document
+                .getElementById("maxMarks")
+                .textContent =
+                    data.totalMarks;
+
+
+            /* STUDENT */
+
+            let resultText =
+                "Optimal study selection";
+
+
+            if (data.studentName) {
+
+                resultText =
+                    `${escapeHtml(data.studentName)}'s optimized study plan`;
+
+            }
+
+
+            document
+                .getElementById("studentResultText")
+                .innerHTML =
+                    resultText;
+
+
+            /* AVAILABLE TIME */
+
+            document
+                .getElementById("availableTime")
+                .textContent =
+                    formatTime(data.availableTime);
+
+
+            /* USED TIME */
+
+            document
+                .getElementById("usedTime")
+                .textContent =
+                    formatTime(data.usedTime);
+
+
+            /* REMAINING TIME */
+
+            document
+                .getElementById("remainingTime")
+                .textContent =
+                    formatTime(data.remainingTime);
+
+
+            /* SELECTED ASSIGNMENTS */
+
+            renderSelected(data.assignments);
+
+
+            /* PROGRESS */
+
+            const percentage =
+                data.availableTime > 0
+
+                    ? Math.min(
+                        100,
+                        Math.round(
+                            (
+                                data.usedTime /
+                                data.availableTime
+                            ) * 100
+                        )
+                    )
+
+                    : 0;
+
+
+            document
+                .getElementById("timePercentage")
+                .textContent =
+                    `${percentage}%`;
+
+
+            document
+                .getElementById("timeProgress")
+                .style.width =
+                    `${percentage}%`;
+
+
+            /* ALGORITHM */
+
+            document
+                .getElementById("algorithmName")
+                .textContent =
+                    data.algorithm ||
+                    "0/1 Knapsack using Dynamic Programming";
+
+
+            if (data.complexity) {
+
+                document
+                    .getElementById("complexityText")
+                    .innerHTML = `
+
+                        Time Complexity:
+                        ${escapeHtml(data.complexity.time)}
+
+                        <br>
+
+                        Space Complexity:
+                        ${escapeHtml(data.complexity.space)}
+
+                    `;
+
+            }
+
+
+            /* CHART */
+
+            renderChart(data.assignments);
+
+
+            /* SCROLL TO RESULTS */
+
+            document
+                .getElementById("resultsContent")
+                .scrollIntoView({
+                    behavior: "smooth",
+                    block: "start"
+                });
+
+        }
+
+
+        /* =========================================
+           RENDER SELECTED ASSIGNMENTS
+        ========================================= */
+
+        function renderSelected(selected) {
+
+            const selectedList =
+                document.getElementById(
+                    "selectedList"
+                );
+
+
+            if (
+                !selected ||
+                selected.length === 0
+            ) {
+
+                selectedList.innerHTML = `
+
+                    <div class="empty-list">
+
+                        No assignment could be selected.
+
+                    </div>
+
+                `;
+
+                return;
+
+            }
+
+
+            selectedList.innerHTML =
+                selected
+                    .map(item => {
+
+                        return `
+
+                            <div class="selected-item">
+
+                                <div>
+
+                                    <div class="selected-item-name">
+
+                                        ${escapeHtml(item.name)}
+
+                                    </div>
+
+                                    <div class="selected-item-time">
+
+                                        <i class="bi bi-clock me-1"></i>
+
+                                        ${formatTime(item.time)}
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="selected-item-marks">
+
+                                    +${item.marks} marks
+
+                                </div>
+
+                            </div>
+
+                        `;
+
+                    })
+                    .join("");
+
+        }
+
+
+        /* =========================================
+           RENDER CHART
+        ========================================= */
+
+        function renderChart(selected) {
+
+            const canvas =
+                document.getElementById(
+                    "efficiencyChart"
+                );
+
+
+            if (!canvas) {
+                return;
+            }
+
+
+            if (efficiencyChart) {
+
+                efficiencyChart.destroy();
+
+            }
+
+
+            if (
+                !selected ||
+                selected.length === 0
+            ) {
+                return;
+            }
+
+
+            const labels =
+                selected.map(
+                    item => item.name
+                );
+
+
+            const marks =
+                selected.map(
+                    item => item.marks
+                );
+
+
+            efficiencyChart =
+                new Chart(
+                    canvas,
+                    {
+                        type: "bar",
+
+                        data: {
+
+                            labels: labels,
+
+                            datasets: [
+
+                                {
+                                    label:
+                                        "Expected Marks",
+
+                                    data:
+                                        marks,
+
+                                    borderRadius: 8,
+
+                                    backgroundColor:
+                                        "rgba(79, 70, 229, 0.80)",
+
+                                    borderColor:
+                                        "rgba(79, 70, 229, 1)",
+
+                                    borderWidth: 1
+
+                                }
+
+                            ]
+
+                        },
+
+                        options: {
+
+                            responsive: true,
+
+                            maintainAspectRatio: false,
+
+                            plugins: {
+
+                                legend: {
+
+                                    display: false
+
+                                }
+
+                            },
+
+                            scales: {
+
+                                x: {
+
+                                    grid: {
+
+                                        display: false
+
+                                    },
+
+                                    ticks: {
+
+                                        color:
+                                            "#667085",
+
+                                        font: {
+
+                                            size: 11
+
+                                        }
+
+                                    }
+
+                                },
+
+                                y: {
+
+                                    beginAtZero: true,
+
+                                    grid: {
+
+                                        color:
+                                            "#edf0f5"
+
+                                    },
+
+                                    ticks: {
+
+                                        color:
+                                            "#667085",
+
+                                        font: {
+
+                                            size: 11
+
+                                        }
+
+                                    }
+
+                                }
+
+                            }
+
+                        }
+
+                    }
+                );
+
+        }
+
+
+        /* =========================================
+           ENTER KEY SUPPORT
+        ========================================= */
+
+        [
+            subjectNameInput,
+            marksInput,
+            durationHoursInput,
+            durationMinutesInput
+
+        ].forEach(input => {
+
+            input.addEventListener(
+                "keydown",
+                function(event) {
+
+                    if (
+                        event.key === "Enter"
+                    ) {
+
+                        event.preventDefault();
+
+                        addAssignment();
+
+                    }
+
+                }
+            );
+
+        });
+
+
+        /* =========================================
+           INITIAL RENDER
+        ========================================= */
+
+        renderList();
+
+    </script>
+
+
+    <!-- Bootstrap JS -->
+    <script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+    </script>
+
+</body>
+</html>
