@@ -2,10 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>GradeMax — Smart Study Optimizer</title>
+    <title>GradeMax — Smart Assignment Optimizer</title>
 
     <!-- Bootstrap -->
     <link
@@ -13,7 +12,7 @@
         rel="stylesheet"
     >
 
-    <!-- Bootstrap Icons -->
+    <!-- Icons -->
     <link
         rel="stylesheet"
         href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
@@ -24,45 +23,34 @@
 
     <style>
 
-        /* =========================
-           GLOBAL
-        ========================= */
-
         * {
             box-sizing: border-box;
         }
 
         body {
             margin: 0;
+            background: #f5f7fb;
+            color: #172033;
             font-family:
                 Inter,
-                system-ui,
                 -apple-system,
                 BlinkMacSystemFont,
                 "Segoe UI",
                 sans-serif;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    #f8fbff 0%,
-                    #eef5ff 50%,
-                    #f7fbff 100%
-                );
-
-            color: #172033;
-            min-height: 100vh;
         }
 
-        /* =========================
-           NAVBAR
-        ========================= */
+        .container-custom {
+            max-width: 1250px;
+            margin: auto;
+            padding: 0 20px;
+        }
+
+        /* NAVBAR */
 
         .navbar-custom {
             background: rgba(255, 255, 255, 0.92);
             backdrop-filter: blur(12px);
-            border-bottom: 1px solid #e5eaf2;
-            padding: 14px 0;
+            border-bottom: 1px solid #e7eaf0;
             position: sticky;
             top: 0;
             z-index: 1000;
@@ -71,801 +59,522 @@
         .brand {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
             text-decoration: none;
             color: #172033;
+            font-weight: 800;
+            font-size: 1.25rem;
         }
 
         .brand-icon {
-            width: 44px;
-            height: 44px;
-            border-radius: 13px;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    #4f46e5,
-                    #2563eb
-                );
-
+            width: 38px;
+            height: 38px;
+            border-radius: 11px;
+            background: linear-gradient(135deg, #4f46e5, #2563eb);
             color: white;
-
             display: flex;
             align-items: center;
             justify-content: center;
-
-            font-size: 22px;
-
-            box-shadow:
-                0 8px 20px rgba(37, 99, 235, 0.25);
+            box-shadow: 0 7px 18px rgba(79, 70, 229, 0.25);
         }
 
-        .brand-name {
-            font-size: 22px;
-            font-weight: 800;
-            letter-spacing: -0.5px;
-        }
-
-        .brand-name span {
+        .brand span {
             color: #4f46e5;
         }
 
-        .nav-badge {
-            background: #eef2ff;
-            color: #4338ca;
-            padding: 7px 12px;
-            border-radius: 999px;
-            font-size: 12px;
-            font-weight: 700;
-        }
-
-        /* =========================
-           HERO
-        ========================= */
-
-        .hero {
-            padding: 55px 0 35px;
-        }
-
-        .hero-badge {
+        .status-badge {
             display: inline-flex;
             align-items: center;
             gap: 7px;
-
             background: #ecfdf5;
             color: #047857;
-
             border: 1px solid #bbf7d0;
-
-            padding: 7px 13px;
-            border-radius: 999px;
-
-            font-size: 13px;
-            font-weight: 700;
-
-            margin-bottom: 17px;
+            border-radius: 50px;
+            padding: 7px 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
         }
 
-        .hero h1 {
-            font-size: clamp(34px, 5vw, 58px);
-            line-height: 1.05;
-            font-weight: 850;
-            letter-spacing: -2px;
+        .status-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #10b981;
+        }
 
+        /* HERO */
+
+        .hero {
+            padding: 55px 0 45px;
+            background:
+                radial-gradient(circle at 15% 20%, rgba(99,102,241,.12), transparent 28%),
+                radial-gradient(circle at 85% 30%, rgba(37,99,235,.10), transparent 30%);
+        }
+
+        .hero-content {
+            max-width: 850px;
+        }
+
+        .hero-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 7px 13px;
+            border-radius: 50px;
+            background: #eef2ff;
+            color: #4338ca;
+            font-size: 0.82rem;
+            font-weight: 700;
             margin-bottom: 18px;
         }
 
-        .hero h1 .gradient-text {
-            background:
-                linear-gradient(
-                    90deg,
-                    #4f46e5,
-                    #2563eb,
-                    #0891b2
-                );
+        .hero h1 {
+            font-size: clamp(2.3rem, 5vw, 4rem);
+            line-height: 1.05;
+            font-weight: 850;
+            letter-spacing: -2px;
+            margin-bottom: 18px;
+        }
 
+        .gradient-text {
+            background: linear-gradient(90deg, #4f46e5, #2563eb, #0891b2);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
         .hero p {
-            max-width: 720px;
-            font-size: 17px;
+            color: #64748b;
+            font-size: 1.08rem;
+            max-width: 680px;
             line-height: 1.7;
-            color: #667085;
         }
 
-        /* =========================
-           MAIN CARDS
-        ========================= */
+        /* CARDS */
 
         .main-card {
             background: white;
-            border: 1px solid #e5eaf2;
-            border-radius: 22px;
-
-            box-shadow:
-                0 18px 50px rgba(15, 23, 42, 0.07);
-
-            overflow: hidden;
+            border: 1px solid #e7eaf0;
+            border-radius: 18px;
+            box-shadow: 0 10px 35px rgba(15, 23, 42, 0.055);
         }
 
         .card-header-custom {
-            padding: 24px 26px 18px;
-            border-bottom: 1px solid #edf0f5;
-        }
-
-        .card-title {
-            font-size: 20px;
-            font-weight: 800;
-            margin: 0;
-        }
-
-        .card-subtitle {
-            margin: 5px 0 0;
-            color: #7a8496;
-            font-size: 14px;
+            padding: 22px 24px 0;
         }
 
         .card-body-custom {
-            padding: 26px;
+            padding: 24px;
         }
 
-        /* =========================
-           INPUTS
-        ========================= */
+        .section-title {
+            font-weight: 800;
+            font-size: 1.05rem;
+            margin-bottom: 5px;
+        }
+
+        .section-subtitle {
+            color: #94a3b8;
+            font-size: 0.82rem;
+        }
+
+        /* FORM */
 
         .form-label {
-            font-size: 13px;
-            font-weight: 750;
-            color: #344054;
-            margin-bottom: 8px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: #475569;
         }
 
-        .form-control,
-        .form-select {
-            min-height: 48px;
-            border-radius: 12px;
-            border: 1px solid #dce2eb;
-            padding: 10px 14px;
-            font-size: 14px;
-
-            transition:
-                border-color 0.2s,
-                box-shadow 0.2s;
+        .form-control {
+            border: 1px solid #dfe4ec;
+            border-radius: 10px;
+            padding: 11px 13px;
+            transition: 0.2s ease;
         }
 
-        .form-control:focus,
-        .form-select:focus {
+        .form-control:focus {
             border-color: #6366f1;
-
-            box-shadow:
-                0 0 0 4px rgba(99, 102, 241, 0.10);
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
         }
 
-        .input-group .form-control {
-            border-radius: 12px;
-        }
-
-        .time-group {
-            display: flex;
+        .time-input-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
             gap: 10px;
         }
 
-        .time-input {
-            flex: 1;
+        .time-field {
+            position: relative;
         }
 
-        .time-label {
-            display: block;
-            font-size: 11px;
-            color: #98a2b3;
-            margin-top: 5px;
-            margin-left: 3px;
+        .time-field .form-control {
+            padding-right: 55px;
         }
 
-        /* =========================
-           ADD ASSIGNMENT
-        ========================= */
-
-        .assignment-box {
-            background: #f8faff;
-            border: 1px solid #e4eaf5;
-            border-radius: 18px;
-            padding: 20px;
-            margin-top: 25px;
+        .time-unit {
+            position: absolute;
+            right: 13px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #94a3b8;
+            font-size: 0.78rem;
+            font-weight: 700;
+            pointer-events: none;
         }
 
-        .assignment-box-title {
-            font-size: 16px;
-            font-weight: 800;
-            margin-bottom: 18px;
+        .time-preview {
+            margin-top: 8px;
+            color: #64748b;
+            font-size: 0.76rem;
         }
+
+        /* BUTTONS */
 
         .btn-primary-custom {
             border: none;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    #4f46e5,
-                    #2563eb
-                );
-
+            background: linear-gradient(135deg, #4f46e5, #2563eb);
             color: white;
-
-            border-radius: 12px;
-
-            min-height: 48px;
-
-            font-weight: 750;
-
-            padding: 10px 20px;
-
-            box-shadow:
-                0 8px 18px rgba(37, 99, 235, 0.22);
-
-            transition:
-                transform 0.2s,
-                box-shadow 0.2s;
+            border-radius: 10px;
+            padding: 12px 18px;
+            font-weight: 700;
+            transition: 0.2s ease;
+            box-shadow: 0 8px 18px rgba(79, 70, 229, 0.2);
         }
 
         .btn-primary-custom:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 11px 22px rgba(79, 70, 229, 0.28);
             color: white;
-
-            transform: translateY(-2px);
-
-            box-shadow:
-                0 12px 25px rgba(37, 99, 235, 0.28);
         }
 
-        .btn-secondary-custom {
+        .btn-outline-custom {
+            border: 1px solid #dbe1ea;
             background: white;
-            border: 1px solid #dce2eb;
-            color: #344054;
-
-            border-radius: 12px;
-            min-height: 48px;
-
-            font-weight: 700;
+            color: #475569;
+            border-radius: 10px;
+            padding: 10px 15px;
+            font-weight: 650;
+            transition: 0.2s ease;
         }
 
-        .btn-secondary-custom:hover {
-            background: #f8fafc;
-            border-color: #cbd5e1;
+        .btn-outline-custom:hover {
+            border-color: #6366f1;
+            color: #4f46e5;
+            background: #f8faff;
         }
 
-        /* =========================
-           ASSIGNMENT LIST
-        ========================= */
+        /* ASSIGNMENTS */
 
         .assignment-list {
-            margin-top: 22px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
         }
 
         .assignment-item {
+            border: 1px solid #e7eaf0;
+            border-radius: 12px;
+            padding: 13px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-
-            gap: 15px;
-
-            background: white;
-
-            border: 1px solid #e5eaf2;
-
-            border-radius: 15px;
-
-            padding: 15px 17px;
-
-            margin-bottom: 10px;
-
-            transition:
-                transform 0.2s,
-                box-shadow 0.2s;
+            gap: 10px;
+            transition: 0.2s ease;
+            background: #fff;
         }
 
         .assignment-item:hover {
+            border-color: #c7d2fe;
             transform: translateY(-1px);
-
-            box-shadow:
-                0 8px 20px rgba(15, 23, 42, 0.06);
+            box-shadow: 0 5px 15px rgba(15,23,42,.04);
         }
 
         .assignment-info {
-            display: flex;
-            align-items: center;
-            gap: 13px;
             min-width: 0;
         }
 
-        .assignment-number {
-            width: 38px;
-            height: 38px;
-
-            border-radius: 11px;
-
-            background: #eef2ff;
-            color: #4338ca;
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            font-weight: 800;
-            font-size: 13px;
-
-            flex-shrink: 0;
-        }
-
         .assignment-name {
-            font-weight: 750;
-            font-size: 14px;
-
+            font-weight: 700;
+            font-size: 0.9rem;
+            margin-bottom: 3px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
         }
 
         .assignment-meta {
-            color: #7a8496;
-            font-size: 12px;
-            margin-top: 3px;
+            font-size: 0.76rem;
+            color: #94a3b8;
         }
 
-        .remove-btn {
-            border: none;
-            background: #fff1f2;
-            color: #e11d48;
-
-            width: 38px;
-            height: 38px;
-
-            border-radius: 10px;
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            flex-shrink: 0;
-        }
-
-        .remove-btn:hover {
-            background: #ffe4e6;
-        }
-
-        .empty-list {
-            text-align: center;
-            padding: 25px 10px;
-
-            color: #98a2b3;
-
-            border: 1px dashed #d9e0ea;
-            border-radius: 14px;
-
-            background: #fafcff;
-        }
-
-        /* =========================
-           CALCULATE BUTTON
-        ========================= */
-
-        .calculate-area {
-            margin-top: 25px;
-            padding-top: 22px;
-
-            border-top: 1px solid #edf0f5;
-        }
-
-        .calculate-btn {
-            width: 100%;
-            min-height: 58px;
-
-            border: none;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    #4f46e5,
-                    #2563eb
-                );
-
-            color: white;
-
-            border-radius: 14px;
-
-            font-size: 15px;
-            font-weight: 800;
-
-            box-shadow:
-                0 10px 25px rgba(37, 99, 235, 0.22);
-
-            transition:
-                transform 0.2s,
-                box-shadow 0.2s;
-        }
-
-        .calculate-btn:hover {
-            color: white;
-
-            transform: translateY(-2px);
-
-            box-shadow:
-                0 15px 32px rgba(37, 99, 235, 0.30);
-        }
-
-        .calculate-btn:disabled {
-            opacity: 0.65;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        /* =========================
-           RESULTS
-        ========================= */
-
-        .result-card {
-            height: 100%;
-        }
-
-        .initial-state {
-            min-height: 540px;
-
-            display: flex;
-            flex-direction: column;
-
-            align-items: center;
-            justify-content: center;
-
-            text-align: center;
-
-            padding: 35px;
-        }
-
-        .initial-icon {
-            width: 82px;
-            height: 82px;
-
-            border-radius: 24px;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    #eef2ff,
-                    #e0f2fe
-                );
-
+        .efficiency-pill {
+            background: #eef2ff;
             color: #4f46e5;
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            font-size: 36px;
-
-            margin-bottom: 20px;
-        }
-
-        .initial-state h3 {
-            font-size: 21px;
-            font-weight: 800;
-            margin-bottom: 10px;
-        }
-
-        .initial-state p {
-            color: #7a8496;
-            max-width: 390px;
-            line-height: 1.65;
-            font-size: 14px;
-        }
-
-        /* =========================
-           RESULT HEADER
-        ========================= */
-
-        .result-summary {
-            background:
-                linear-gradient(
-                    135deg,
-                    #eef2ff,
-                    #eff6ff
-                );
-
-            border: 1px solid #dbe5ff;
-
-            border-radius: 17px;
-
-            padding: 20px;
-
-            margin-bottom: 20px;
-        }
-
-        .result-summary-label {
-            color: #667085;
-            font-size: 12px;
+            border-radius: 7px;
+            padding: 4px 7px;
+            font-size: 0.7rem;
             font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .result-summary-value {
-            font-size: 31px;
-            font-weight: 850;
-            color: #312e81;
-            margin-top: 4px;
-        }
-
-        .result-summary-sub {
-            font-size: 13px;
-            color: #667085;
-            margin-top: 3px;
-        }
-
-        /* =========================
-           STATS
-        ========================= */
-
-        .stats-grid {
-            display: grid;
-
-            grid-template-columns:
-                repeat(3, 1fr);
-
-            gap: 12px;
-
-            margin-bottom: 22px;
-        }
-
-        .stat-box {
-            background: #fafbfc;
-
-            border: 1px solid #e8edf3;
-
-            border-radius: 14px;
-
-            padding: 15px;
-        }
-
-        .stat-label {
-            font-size: 11px;
-            color: #98a2b3;
-            font-weight: 700;
-            text-transform: uppercase;
-        }
-
-        .stat-value {
-            font-size: 18px;
-            font-weight: 800;
-            margin-top: 5px;
-            color: #1d2939;
-        }
-
-        /* =========================
-           SELECTED ASSIGNMENTS
-        ========================= */
-
-        .section-heading {
-            font-size: 14px;
-            font-weight: 800;
-
-            margin-bottom: 12px;
-        }
-
-        .selected-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-
-            gap: 12px;
-
-            padding: 13px 14px;
-
-            border: 1px solid #e8edf3;
-            border-radius: 12px;
-
-            margin-bottom: 8px;
-        }
-
-        .selected-item-name {
-            font-size: 13px;
-            font-weight: 750;
-        }
-
-        .selected-item-time {
-            color: #7a8496;
-            font-size: 11px;
-            margin-top: 3px;
-        }
-
-        .selected-item-marks {
-            background: #ecfdf3;
-            color: #047857;
-
-            padding: 6px 9px;
-
-            border-radius: 8px;
-
-            font-size: 12px;
-            font-weight: 800;
-
             white-space: nowrap;
         }
 
-        /* =========================
-           PROGRESS
-        ========================= */
-
-        .progress-section {
-            margin-top: 22px;
+        .delete-btn {
+            width: 30px;
+            height: 30px;
+            border: none;
+            border-radius: 8px;
+            background: #fff1f2;
+            color: #e11d48;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: .2s;
         }
 
-        .progress-top {
-            display: flex;
-            justify-content: space-between;
+        .delete-btn:hover {
+            background: #ffe4e6;
+        }
 
-            font-size: 12px;
-            font-weight: 700;
+        /* EMPTY */
 
+        .empty-state {
+            text-align: center;
+            padding: 25px 10px;
+            color: #94a3b8;
+        }
+
+        .empty-state i {
+            font-size: 2rem;
             margin-bottom: 8px;
         }
 
-        .custom-progress {
-            height: 9px;
+        /* RESULT */
 
-            background: #edf1f7;
-
-            border-radius: 999px;
-
-            overflow: hidden;
+        .result-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 22px;
         }
 
-        .custom-progress-bar {
-            height: 100%;
-
-            background:
-                linear-gradient(
-                    90deg,
-                    #4f46e5,
-                    #2563eb
-                );
-
-            border-radius: 999px;
-
-            transition: width 0.6s ease;
-        }
-
-        /* =========================
-           CHART
-        ========================= */
-
-        .chart-container {
-            position: relative;
-
-            height: 260px;
-
-            margin-top: 25px;
-        }
-
-        /* =========================
-           ALGORITHM INFO
-        ========================= */
-
-        .algorithm-box {
-            margin-top: 22px;
-
+        .result-stat {
+            border-radius: 13px;
+            padding: 17px;
             background: #f8fafc;
-
-            border: 1px solid #e6ebf2;
-
-            border-radius: 14px;
-
-            padding: 15px;
+            border: 1px solid #e8edf3;
         }
 
-        .algorithm-title {
-            font-size: 12px;
+        .result-stat.primary {
+            background: linear-gradient(135deg, #eef2ff, #eff6ff);
+            border-color: #c7d2fe;
+        }
 
-            color: #667085;
-
+        .stat-label {
+            font-size: 0.72rem;
+            color: #64748b;
             font-weight: 700;
-
             text-transform: uppercase;
-
-            margin-bottom: 5px;
+            letter-spacing: .4px;
         }
 
-        .algorithm-name {
-            font-size: 13px;
+        .stat-value {
+            font-size: 1.55rem;
+            font-weight: 850;
+            margin-top: 4px;
+            color: #172033;
+        }
 
+        .primary .stat-value {
+            color: #4338ca;
+        }
+
+        /* STATUS */
+
+        .optimization-status {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #ecfdf5;
+            border: 1px solid #bbf7d0;
+            color: #047857;
+            border-radius: 11px;
+            padding: 12px 14px;
+            font-size: 0.82rem;
+            font-weight: 650;
+            margin-bottom: 18px;
+        }
+
+        .optimization-status i {
+            font-size: 1.1rem;
+        }
+
+        /* SELECTED */
+
+        .selected-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 13px 0;
+            border-bottom: 1px solid #edf0f4;
+        }
+
+        .selected-item:last-child {
+            border-bottom: none;
+        }
+
+        .selected-left {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            min-width: 0;
+        }
+
+        .check-icon {
+            width: 31px;
+            height: 31px;
+            border-radius: 9px;
+            background: #dcfce7;
+            color: #16a34a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .selected-name {
+            font-weight: 700;
+            font-size: .88rem;
+        }
+
+        .selected-meta {
+            font-size: .74rem;
+            color: #94a3b8;
+            margin-top: 2px;
+        }
+
+        .selected-marks {
             font-weight: 800;
-
-            color: #344054;
+            color: #16a34a;
+            white-space: nowrap;
         }
 
-        .complexity {
-            font-size: 12px;
-            color: #7a8496;
+        /* PROGRESS */
 
-            margin-top: 5px;
+        .progress-wrapper {
+            margin-top: 20px;
         }
 
-        /* =========================
-           ALERT
-        ========================= */
-
-        .error-alert {
-            display: none;
-
-            border: none;
-
-            border-radius: 12px;
-
-            background: #fff1f2;
-
-            color: #be123c;
-
-            padding: 13px 15px;
-
-            font-size: 13px;
-
-            margin-top: 15px;
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            font-size: .75rem;
+            color: #64748b;
+            margin-bottom: 7px;
         }
 
-        /* =========================
-           FOOTER
-        ========================= */
+        .progress {
+            height: 9px;
+            border-radius: 50px;
+            background: #e8edf3;
+        }
+
+        .progress-bar {
+            border-radius: 50px;
+            background: linear-gradient(90deg, #4f46e5, #2563eb);
+        }
+
+        /* CHART */
+
+        .chart-wrapper {
+            position: relative;
+            height: 330px;
+        }
+
+        /* INITIAL */
+
+        .initial-state {
+            padding: 35px 10px;
+            text-align: center;
+            color: #94a3b8;
+        }
+
+        .initial-state-icon {
+            width: 58px;
+            height: 58px;
+            margin: 0 auto 14px;
+            border-radius: 16px;
+            background: #eef2ff;
+            color: #4f46e5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .initial-state h6 {
+            color: #475569;
+            font-weight: 750;
+        }
+
+        /* FOOTER */
 
         footer {
-            padding: 35px 0 40px;
-
-            color: #98a2b3;
-
-            font-size: 12px;
-
             text-align: center;
+            padding: 30px 0 40px;
+            color: #94a3b8;
+            font-size: .78rem;
         }
 
-        /* =========================
-           RESPONSIVE
-        ========================= */
+        /* LOADING */
 
-        @media (max-width: 991px) {
+        .loading-spinner {
+            width: 18px;
+            height: 18px;
+            border: 2px solid rgba(255,255,255,.4);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin .7s linear infinite;
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 7px;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* RESPONSIVE */
+
+        @media (max-width: 768px) {
 
             .hero {
-                padding-top: 38px;
+                padding: 40px 0 30px;
             }
-
-            .result-card {
-                margin-top: 25px;
-            }
-
-        }
-
-        @media (max-width: 575px) {
 
             .hero h1 {
+                font-size: 2.4rem;
                 letter-spacing: -1px;
             }
 
-            .card-header-custom,
-            .card-body-custom {
-                padding: 20px;
-            }
-
-            .stats-grid {
+            .result-grid {
                 grid-template-columns: 1fr;
             }
 
-            .time-group {
-                gap: 7px;
+            .status-badge {
+                display: none;
+            }
+
+            .chart-wrapper {
+                height: 280px;
+            }
+
+            .time-input-row {
+                grid-template-columns: 1fr 1fr;
             }
 
             .assignment-item {
-                padding: 12px;
-            }
-
-            .initial-state {
-                min-height: 420px;
+                align-items: flex-start;
             }
 
         }
@@ -875,169 +584,201 @@
 
 <body>
 
-    <!-- =========================
-         NAVBAR
-    ========================== -->
+<!-- NAVBAR -->
 
-    <nav class="navbar-custom">
-        <div class="container">
+<nav class="navbar-custom">
 
-            <div class="d-flex justify-content-between align-items-center">
+    <div class="container-custom">
 
-                <a href="#" class="brand">
+        <div class="d-flex justify-content-between align-items-center py-3">
 
-                    <div class="brand-icon">
-                        <i class="bi bi-mortarboard-fill"></i>
-                    </div>
+            <a class="brand" href="#">
 
-                    <div class="brand-name">
-                        Grade<span>Max</span>
-                    </div>
-
-                </a>
-
-                <div class="nav-badge">
-                    <i class="bi bi-stars"></i>
-                    Smart Study Optimizer
+                <div class="brand-icon">
+                    <i class="bi bi-bullseye"></i>
                 </div>
 
+                Grade<span>Max</span>
+
+            </a>
+
+            <div class="status-badge">
+                <span class="status-dot"></span>
+                Smart Optimizer
             </div>
 
         </div>
-    </nav>
+
+    </div>
+
+</nav>
 
 
-    <!-- =========================
-         HERO
-    ========================== -->
+<!-- HERO -->
 
-    <section class="hero">
+<section class="hero">
 
-        <div class="container">
+    <div class="container-custom">
 
-            <div class="hero-badge">
-                <i class="bi bi-lightning-charge-fill"></i>
-                Dynamic Programming Powered
+        <div class="hero-content">
+
+            <div class="hero-label">
+                <i class="bi bi-stars"></i>
+                Study Smarter • Score Better
             </div>
 
             <h1>
-                Study smarter.<br>
-                <span class="gradient-text">
-                    Maximize your marks.
-                </span>
+                Turn your study time into
+                <span class="gradient-text">maximum marks.</span>
             </h1>
 
             <p>
-                GradeMax analyzes your assignments, expected marks,
-                completion time and available study time to find the
-                most valuable combination of work you can complete.
+                GradeMax analyzes your assignments and finds the combination
+                that gives you the highest expected marks within your available
+                study time.
             </p>
 
         </div>
 
-    </section>
+    </div>
+
+</section>
 
 
-    <!-- =========================
-         MAIN CONTENT
-    ========================== -->
+<!-- MAIN -->
 
-    <main class="container pb-4">
+<main class="container-custom pb-4">
 
-        <div class="row g-4">
+    <div class="row g-4">
 
+        <!-- LEFT -->
 
-            <!-- =========================
-                 LEFT SIDE
-            ========================== -->
+        <div class="col-lg-5">
 
-            <div class="col-lg-6">
+            <div class="main-card">
 
-                <div class="main-card">
+                <div class="card-header-custom">
 
-                    <div class="card-header-custom">
+                    <div class="section-title">
+                        <i class="bi bi-sliders2 me-2 text-primary"></i>
+                        Study Configuration
+                    </div>
 
-                        <h2 class="card-title">
-                            <i class="bi bi-sliders2 me-2 text-primary"></i>
-                            Study Configuration
-                        </h2>
+                    <div class="section-subtitle">
+                        Set your available time and assignments
+                    </div>
 
-                        <p class="card-subtitle">
-                            Enter your details and study constraints.
-                        </p>
+                </div>
+
+                <div class="card-body-custom">
+
+                    <!-- AVAILABLE TIME -->
+
+                    <label class="form-label">
+                        Available Study Time
+                    </label>
+
+                    <div class="time-input-row mb-1">
+
+                        <div class="time-field">
+
+                            <input
+                                type="number"
+                                id="maxHours"
+                                class="form-control"
+                                value="6"
+                                min="0"
+                                placeholder="Hours"
+                            >
+
+                            <span class="time-unit">Hours</span>
+
+                        </div>
+
+                        <div class="time-field">
+
+                            <input
+                                type="number"
+                                id="maxMinutes"
+                                class="form-control"
+                                value="0"
+                                min="0"
+                                max="59"
+                                placeholder="Minutes"
+                            >
+
+                            <span class="time-unit">Min</span>
+
+                        </div>
 
                     </div>
 
+                    <div class="time-preview">
+                        <i class="bi bi-clock me-1"></i>
+                        Total available:
+                        <strong id="availableTimePreview">6h</strong>
+                    </div>
 
-                    <div class="card-body-custom">
+
+                    <!-- ADD ASSIGNMENT -->
+
+                    <div class="border-top pt-4 mt-4">
+
+                        <div class="section-title mb-1">
+                            Add Assignment
+                        </div>
+
+                        <div class="section-subtitle mb-3">
+                            Enter the time required and expected marks
+                        </div>
 
 
-                        <!-- STUDENT NAME -->
-
-                        <div class="mb-4">
-
-                            <label
-                                for="studentName"
-                                class="form-label"
-                            >
-                                Student Name
-                            </label>
+                        <div class="mb-2">
 
                             <input
                                 type="text"
-                                id="studentName"
+                                id="name"
                                 class="form-control"
-                                placeholder="Enter your name"
+                                placeholder="Assignment name"
                             >
 
                         </div>
 
 
-                        <!-- AVAILABLE TIME -->
+                        <div class="row g-2 mb-3">
 
-                        <div class="mb-4">
+                            <div class="col-6">
 
-                            <label class="form-label">
-                                <i class="bi bi-clock me-1"></i>
-                                Time I Have
-                            </label>
-
-                            <div class="time-group">
-
-                                <div class="time-input">
+                                <div class="time-field">
 
                                     <input
                                         type="number"
-                                        id="availableHours"
+                                        id="timeHours"
                                         class="form-control"
-                                        min="0"
-                                        max="24"
-                                        value="3"
                                         placeholder="Hours"
+                                        min="0"
                                     >
 
-                                    <span class="time-label">
-                                        Hours
-                                    </span>
+                                    <span class="time-unit">Hours</span>
 
                                 </div>
 
+                            </div>
 
-                                <div class="time-input">
+                            <div class="col-6">
+
+                                <div class="time-field">
 
                                     <input
                                         type="number"
-                                        id="availableMinutes"
+                                        id="timeMinutes"
                                         class="form-control"
+                                        placeholder="Minutes"
                                         min="0"
                                         max="59"
-                                        value="0"
-                                        placeholder="Minutes"
                                     >
 
-                                    <span class="time-label">
-                                        Minutes
-                                    </span>
+                                    <span class="time-unit">Min</span>
 
                                 </div>
 
@@ -1046,250 +787,125 @@
                         </div>
 
 
-                        <!-- ASSIGNMENT SECTION -->
+                        <div class="mb-3">
 
-                        <div class="assignment-box">
-
-                            <div class="assignment-box-title">
-
-                                <i class="bi bi-journal-text me-1 text-primary"></i>
-
-                                Add Assignment / Subject
-
-                            </div>
-
-
-                            <!-- SUBJECT -->
-
-                            <div class="mb-3">
-
-                                <label
-                                    for="subjectName"
-                                    class="form-label"
-                                >
-                                    Subject / Assignment Name
-                                </label>
-
-                                <input
-                                    type="text"
-                                    id="subjectName"
-                                    class="form-control"
-                                    placeholder="Example: Data Structures"
-                                >
-
-                            </div>
-
-
-                            <!-- MARKS -->
-
-                            <div class="mb-3">
-
-                                <label
-                                    for="marks"
-                                    class="form-label"
-                                >
-                                    Expected Marks
-                                </label>
-
-                                <input
-                                    type="number"
-                                    id="marks"
-                                    class="form-control"
-                                    min="0"
-                                    step="0.01"
-                                    placeholder="Example: 20"
-                                >
-
-                            </div>
-
-
-                            <!-- DURATION -->
-
-                            <div class="mb-3">
-
-                                <label class="form-label">
-                                    Duration to Complete
-                                </label>
-
-                                <div class="time-group">
-
-                                    <div class="time-input">
-
-                                        <input
-                                            type="number"
-                                            id="durationHours"
-                                            class="form-control"
-                                            min="0"
-                                            max="24"
-                                            value="1"
-                                            placeholder="Hours"
-                                        >
-
-                                        <span class="time-label">
-                                            Hours
-                                        </span>
-
-                                    </div>
-
-
-                                    <div class="time-input">
-
-                                        <input
-                                            type="number"
-                                            id="durationMinutes"
-                                            class="form-control"
-                                            min="0"
-                                            max="59"
-                                            value="0"
-                                            placeholder="Minutes"
-                                        >
-
-                                        <span class="time-label">
-                                            Minutes
-                                        </span>
-
-                                    </div>
-
-                                </div>
-
-                            </div>
-
-
-                            <button
-                                type="button"
-                                class="btn btn-primary-custom w-100"
-                                onclick="addAssignment()"
+                            <input
+                                type="number"
+                                id="marks"
+                                class="form-control"
+                                placeholder="Expected marks"
+                                min="1"
                             >
 
-                                <i class="bi bi-plus-circle me-1"></i>
-
-                                Add Assignment
-
-                            </button>
-
                         </div>
 
 
-                        <!-- ASSIGNMENT LIST -->
+                        <button
+                            onclick="addAssignment()"
+                            class="btn-outline-custom w-100"
+                        >
 
-                        <div class="assignment-list">
+                            <i class="bi bi-plus-lg me-1"></i>
 
-                            <div class="d-flex justify-content-between align-items-center mb-2">
+                            Add Assignment
 
-                                <div class="section-heading mb-0">
+                        </button>
+
+                    </div>
+
+
+                    <!-- ASSIGNMENT LIST -->
+
+                    <div class="border-top mt-4 pt-4">
+
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+
+                            <div>
+
+                                <div class="section-title mb-0">
                                     Your Assignments
                                 </div>
 
-                                <span
-                                    id="assignmentCount"
-                                    class="badge rounded-pill text-bg-light"
-                                >
-                                    0
-                                </span>
-
-                            </div>
-
-
-                            <div id="assignmentList">
-
-                                <div class="empty-list">
-
-                                    <i class="bi bi-inbox fs-4 d-block mb-2"></i>
-
-                                    No assignments added yet.
-
-                                    <br>
-
-                                    Add your subjects above.
-
+                                <div class="section-subtitle">
+                                    <span id="assignmentCount">0</span>
+                                    assignments added
                                 </div>
 
                             </div>
 
+                            <i class="bi bi-list-check text-primary"></i>
+
                         </div>
 
-
-                        <!-- ERROR -->
 
                         <div
-                            id="errorAlert"
-                            class="error-alert"
+                            id="assignmentList"
+                            class="assignment-list"
                         ></div>
 
-
-                        <!-- CALCULATE -->
-
-                        <div class="calculate-area">
-
-                            <button
-                                type="button"
-                                id="calculateBtn"
-                                class="calculate-btn"
-                                onclick="runOptimization()"
-                            >
-
-                                <i class="bi bi-magic me-2"></i>
-
-                                Calculate Optimal Study Plan
-
-                            </button>
-
-                        </div>
-
                     </div>
+
+
+                    <!-- CALCULATE -->
+
+                    <button
+                        onclick="runOptimization()"
+                        id="calculateBtn"
+                        class="btn-primary-custom w-100 mt-4"
+                    >
+
+                        <i class="bi bi-magic me-2"></i>
+
+                        Calculate Optimal Schedule
+
+                    </button>
 
                 </div>
 
             </div>
 
+        </div>
 
-            <!-- =========================
-                 RIGHT SIDE
-            ========================== -->
 
-            <div class="col-lg-6">
+        <!-- RIGHT -->
 
-                <div class="main-card result-card">
+        <div class="col-lg-7">
 
-                    <div class="card-header-custom">
+            <!-- RESULT CARD -->
 
-                        <h2 class="card-title">
+            <div class="main-card mb-4">
 
-                            <i class="bi bi-graph-up-arrow me-2 text-success"></i>
+                <div class="card-header-custom">
 
-                            Optimization Result
-
-                        </h2>
-
-                        <p class="card-subtitle">
-                            Your personalized study plan.
-                        </p>
-
+                    <div class="section-title">
+                        <i class="bi bi-graph-up-arrow me-2 text-primary"></i>
+                        Optimization Result
                     </div>
 
+                    <div class="section-subtitle">
+                        Your most efficient assignment combination
+                    </div>
 
-                    <!-- INITIAL STATE -->
+                </div>
 
-                    <div
-                        id="initialState"
-                        class="initial-state"
-                    >
 
-                        <div class="initial-icon">
+                <div class="card-body-custom">
 
-                            <i class="bi bi-stars"></i>
+                    <!-- INITIAL -->
 
+                    <div id="initialState" class="initial-state">
+
+                        <div class="initial-state-icon">
+                            <i class="bi bi-lightning-charge"></i>
                         </div>
 
-                        <h3>
-                            Your optimal plan will appear here
-                        </h3>
+                        <h6>
+                            Ready to optimize
+                        </h6>
 
-                        <p>
-                            Add your assignments and available study
-                            time, then click the button to let GradeMax
-                            calculate the combination that maximizes
-                            your expected marks.
+                        <p class="mb-0">
+                            Add your assignments and calculate your
+                            optimal study schedule.
                         </p>
 
                     </div>
@@ -1297,85 +913,67 @@
 
                     <!-- RESULTS -->
 
-                    <div
-                        id="resultsContent"
-                        class="card-body-custom"
-                        style="display: none;"
-                    >
+                    <div id="resultsContent" style="display:none;">
 
+                        <div class="optimization-status">
 
-                        <!-- MAIN SCORE -->
+                            <i class="bi bi-check-circle-fill"></i>
 
-                        <div class="result-summary">
-
-                            <div class="result-summary-label">
-                                Maximum Expected Marks
-                            </div>
-
-                            <div
-                                id="maxMarks"
-                                class="result-summary-value"
-                            >
-                                0
-                            </div>
-
-                            <div
-                                id="studentResultText"
-                                class="result-summary-sub"
-                            >
-                                Optimal study selection
-                            </div>
+                            <span>
+                                Optimization complete — highest expected
+                                marks found within your time limit.
+                            </span>
 
                         </div>
 
 
-                        <!-- STATS -->
+                        <!-- RESULT STATS -->
 
-                        <div class="stats-grid">
+                        <div class="result-grid">
 
-                            <div class="stat-box">
+                            <div class="result-stat primary">
 
                                 <div class="stat-label">
-                                    Available
+                                    Maximum Marks
                                 </div>
 
                                 <div
-                                    id="availableTime"
                                     class="stat-value"
+                                    id="maxMarks"
                                 >
-                                    0h
+                                    0
                                 </div>
 
                             </div>
 
 
-                            <div class="stat-box">
+                            <div class="result-stat">
 
                                 <div class="stat-label">
-                                    Used
+                                    Time Used
                                 </div>
 
                                 <div
+                                    class="stat-value"
                                     id="usedTime"
-                                    class="stat-value"
                                 >
-                                    0h
+                                    0m
                                 </div>
 
                             </div>
 
 
-                            <div class="stat-box">
+                            <div class="result-stat">
 
                                 <div class="stat-label">
                                     Remaining
                                 </div>
 
                                 <div
-                                    id="remainingTime"
                                     class="stat-value"
+                                    id="remainingTime"
                                 >
-                                    0h
+                                    0m
                                 </div>
 
                             </div>
@@ -1383,28 +981,28 @@
                         </div>
 
 
-                        <!-- SELECTED ASSIGNMENTS -->
+                        <!-- SELECTED -->
 
-                        <div class="section-heading">
+                        <div class="section-title mb-1">
+                            Recommended Study Plan
+                        </div>
 
-                            <i class="bi bi-check2-circle text-success me-1"></i>
-
-                            Recommended Work
-
+                        <div class="section-subtitle mb-2">
+                            Assignments selected by the optimizer
                         </div>
 
 
                         <div id="selectedList"></div>
 
 
-                        <!-- TIME PROGRESS -->
+                        <!-- PROGRESS -->
 
-                        <div class="progress-section">
+                        <div class="progress-wrapper">
 
-                            <div class="progress-top">
+                            <div class="progress-info">
 
                                 <span>
-                                    Study Time Utilization
+                                    Study time utilization
                                 </span>
 
                                 <span id="timePercentage">
@@ -1413,58 +1011,15 @@
 
                             </div>
 
-                            <div class="custom-progress">
+                            <div class="progress">
 
                                 <div
                                     id="timeProgress"
-                                    class="custom-progress-bar"
-                                    style="width: 0%"
+                                    class="progress-bar"
+                                    role="progressbar"
+                                    style="width:0%"
                                 ></div>
 
-                            </div>
-
-                        </div>
-
-
-                        <!-- CHART -->
-
-                        <div class="section-heading mt-4">
-
-                            <i class="bi bi-bar-chart-line me-1 text-primary"></i>
-
-                            Marks Contribution
-
-                        </div>
-
-                        <div class="chart-container">
-
-                            <canvas id="efficiencyChart"></canvas>
-
-                        </div>
-
-
-                        <!-- ALGORITHM -->
-
-                        <div class="algorithm-box">
-
-                            <div class="algorithm-title">
-                                Algorithm Used
-                            </div>
-
-                            <div
-                                id="algorithmName"
-                                class="algorithm-name"
-                            >
-                                0/1 Knapsack using Dynamic Programming
-                            </div>
-
-                            <div
-                                id="complexityText"
-                                class="complexity"
-                            >
-                                Time Complexity: O(n × W)
-                                <br>
-                                Space Complexity: O(W)
                             </div>
 
                         </div>
@@ -1475,724 +1030,538 @@
 
             </div>
 
-        </div>
 
-    </main>
+            <!-- CHART -->
 
+            <div class="main-card">
 
-    <!-- =========================
-         FOOTER
-    ========================== -->
+                <div class="card-header-custom">
 
-    <footer>
+                    <div class="section-title">
 
-        <div class="container">
+                        <i class="bi bi-bar-chart-line me-2 text-primary"></i>
 
-            <div>
-                GradeMax © 2026
-            </div>
-
-            <div class="mt-1">
-                Smart study optimization using Dynamic Programming
-            </div>
-
-        </div>
-
-    </footer>
-
-
-    <!-- =========================
-         JAVASCRIPT
-    ========================== -->
-
-    <script>
-
-        /* =========================================
-           GLOBAL VARIABLES
-        ========================================= */
-
-        let assignments = [];
-
-        let efficiencyChart = null;
-
-
-        /* =========================================
-           DOM ELEMENTS
-        ========================================= */
-
-        const studentNameInput =
-            document.getElementById("studentName");
-
-        const availableHoursInput =
-            document.getElementById("availableHours");
-
-        const availableMinutesInput =
-            document.getElementById("availableMinutes");
-
-        const subjectNameInput =
-            document.getElementById("subjectName");
-
-        const marksInput =
-            document.getElementById("marks");
-
-        const durationHoursInput =
-            document.getElementById("durationHours");
-
-        const durationMinutesInput =
-            document.getElementById("durationMinutes");
-
-        const assignmentList =
-            document.getElementById("assignmentList");
-
-        const assignmentCount =
-            document.getElementById("assignmentCount");
-
-        const errorAlert =
-            document.getElementById("errorAlert");
-
-        const calculateBtn =
-            document.getElementById("calculateBtn");
-
-
-        /* =========================================
-           FORMAT TIME
-        ========================================= */
-
-        function formatTime(totalMinutes) {
-
-            totalMinutes = Number(totalMinutes) || 0;
-
-            const hours =
-                Math.floor(totalMinutes / 60);
-
-            const minutes =
-                totalMinutes % 60;
-
-            if (hours === 0) {
-                return `${minutes} min`;
-            }
-
-            if (minutes === 0) {
-                return `${hours}h`;
-            }
-
-            return `${hours}h ${minutes}m`;
-        }
-
-
-        /* =========================================
-           SHOW ERROR
-        ========================================= */
-
-        function showError(message) {
-
-            errorAlert.textContent = message;
-
-            errorAlert.style.display = "block";
-
-            errorAlert.scrollIntoView({
-                behavior: "smooth",
-                block: "center"
-            });
-
-        }
-
-
-        /* =========================================
-           HIDE ERROR
-        ========================================= */
-
-        function hideError() {
-
-            errorAlert.style.display = "none";
-
-            errorAlert.textContent = "";
-
-        }
-
-
-        /* =========================================
-           ESCAPE HTML
-        ========================================= */
-
-        function escapeHtml(text) {
-
-            return String(text)
-                .replace(/&/g, "&amp;")
-                .replace(/</g, "&lt;")
-                .replace(/>/g, "&gt;")
-                .replace(/"/g, "&quot;")
-                .replace(/'/g, "&#039;");
-
-        }
-
-
-        /* =========================================
-           RENDER ASSIGNMENT LIST
-        ========================================= */
-
-        function renderList() {
-
-            assignmentCount.textContent =
-                assignments.length;
-
-
-            if (assignments.length === 0) {
-
-                assignmentList.innerHTML = `
-
-                    <div class="empty-list">
-
-                        <i class="bi bi-inbox fs-4 d-block mb-2"></i>
-
-                        No assignments added yet.
-
-                        <br>
-
-                        Add your subjects above.
+                        Assignment Efficiency
 
                     </div>
 
-                `;
+                    <div class="section-subtitle">
 
-                return;
+                        Expected marks earned per hour of study
 
-            }
+                    </div>
 
-
-            assignmentList.innerHTML =
-                assignments
-                    .map((item, index) => {
-
-                        return `
-
-                            <div class="assignment-item">
-
-                                <div class="assignment-info">
-
-                                    <div class="assignment-number">
-                                        ${index + 1}
-                                    </div>
-
-                                    <div>
-
-                                        <div class="assignment-name">
-                                            ${escapeHtml(item.name)}
-                                        </div>
-
-                                        <div class="assignment-meta">
-
-                                            ${formatTime(item.time)}
-
-                                            &nbsp;•&nbsp;
-
-                                            ${item.marks} expected marks
-
-                                        </div>
-
-                                    </div>
-
-                                </div>
+                </div>
 
 
-                                <button
-                                    type="button"
-                                    class="remove-btn"
-                                    onclick="removeAssignment(${index})"
-                                    title="Remove assignment"
-                                >
+                <div class="card-body-custom">
 
-                                    <i class="bi bi-trash3"></i>
+                    <div class="chart-wrapper">
 
-                                </button>
+                        <canvas id="efficiencyChart"></canvas>
 
-                            </div>
+                    </div>
 
-                        `;
+                </div>
 
-                    })
-                    .join("");
+            </div>
+
+        </div>
+
+    </div>
+
+</main>
+
+
+<!-- FOOTER -->
+
+<footer>
+
+    <div class="container-custom">
+
+        <i class="bi bi-bullseye me-1"></i>
+
+        GradeMax — Smart Assignment Optimization
+
+    </div>
+
+</footer>
+
+
+<script>
+
+    /* ==========================================
+       ASSIGNMENT DATA
+       TIME IS STORED IN MINUTES
+    ========================================== */
+
+    let assignments = [
+
+        {
+            name: "DBMS Assignment",
+            time: 180,
+            marks: 30
+        },
+
+        {
+            name: "OS Lab Report",
+            time: 120,
+            marks: 25
+        },
+
+        {
+            name: "Python Project",
+            time: 300,
+            marks: 50
+        },
+
+        {
+            name: "Math Homework",
+            time: 60,
+            marks: 10
+        }
+
+    ];
+
+
+    let myChart = null;
+
+
+    /* ==========================================
+       FORMAT MINUTES
+    ========================================== */
+
+    function formatTime(minutes) {
+
+        minutes = Number(minutes);
+
+        const hours = Math.floor(minutes / 60);
+
+        const mins = minutes % 60;
+
+        if (hours > 0 && mins > 0) {
+            return `${hours}h ${mins}m`;
+        }
+
+        if (hours > 0) {
+            return `${hours}h`;
+        }
+
+        return `${mins}m`;
+
+    }
+
+
+    /* ==========================================
+       AVAILABLE TIME PREVIEW
+    ========================================== */
+
+    function updateAvailableTimePreview() {
+
+        let hours =
+            Number(document.getElementById("maxHours").value) || 0;
+
+        let minutes =
+            Number(document.getElementById("maxMinutes").value) || 0;
+
+        if (minutes > 59) {
+
+            minutes = 59;
+
+            document.getElementById("maxMinutes").value = 59;
 
         }
 
+        const totalMinutes =
+            (hours * 60) + minutes;
 
-        /* =========================================
-           ADD ASSIGNMENT
-        ========================================= */
+        document.getElementById(
+            "availableTimePreview"
+        ).textContent =
+            formatTime(totalMinutes);
 
-        function addAssignment() {
+    }
 
-            hideError();
 
+    document.getElementById("maxHours")
+        .addEventListener("input", updateAvailableTimePreview);
 
-            const name =
-                subjectNameInput.value.trim();
+    document.getElementById("maxMinutes")
+        .addEventListener("input", updateAvailableTimePreview);
 
-            const marks =
-                Number(marksInput.value);
 
-            const hours =
-                Number(durationHoursInput.value) || 0;
+    /* ==========================================
+       RENDER ASSIGNMENTS
+    ========================================== */
 
-            const minutes =
-                Number(durationMinutesInput.value) || 0;
+    function renderList() {
 
+        const list =
+            document.getElementById("assignmentList");
 
-            /* VALIDATION */
+        const count =
+            document.getElementById("assignmentCount");
 
-            if (!name) {
+        list.innerHTML = "";
 
-                showError(
-                    "Please enter a subject or assignment name."
-                );
+        count.textContent = assignments.length;
 
-                subjectNameInput.focus();
 
-                return;
+        if (assignments.length === 0) {
 
-            }
+            list.innerHTML = `
 
+                <div class="empty-state">
 
-            if (
-                marksInput.value === "" ||
-                Number.isNaN(marks) ||
-                marks < 0
-            ) {
+                    <i class="bi bi-journal-plus d-block"></i>
 
-                showError(
-                    "Please enter valid expected marks."
-                );
+                    <div>
+                        No assignments added yet
+                    </div>
 
-                marksInput.focus();
-
-                return;
-
-            }
-
-
-            if (minutes < 0 || minutes > 59) {
-
-                showError(
-                    "Minutes must be between 0 and 59."
-                );
-
-                durationMinutesInput.focus();
-
-                return;
-
-            }
-
-
-            const totalTime =
-                hours * 60 + minutes;
-
-
-            if (totalTime <= 0) {
-
-                showError(
-                    "Assignment duration must be greater than 0."
-                );
-
-                durationHoursInput.focus();
-
-                return;
-
-            }
-
-
-            /* ADD */
-
-            assignments.push({
-
-                name: name,
-
-                time: totalTime,
-
-                marks: marks
-
-            });
-
-
-            /* CLEAR INPUTS */
-
-            subjectNameInput.value = "";
-
-            marksInput.value = "";
-
-            durationHoursInput.value = "1";
-
-            durationMinutesInput.value = "0";
-
-
-            /* UPDATE LIST */
-
-            renderList();
-
-
-            /* FOCUS */
-
-            subjectNameInput.focus();
-
-        }
-
-
-        /* =========================================
-           REMOVE ASSIGNMENT
-        ========================================= */
-
-        function removeAssignment(index) {
-
-            if (
-                index < 0 ||
-                index >= assignments.length
-            ) {
-                return;
-            }
-
-
-            assignments.splice(index, 1);
-
-            renderList();
-
-        }
-
-
-        /* =========================================
-           RUN OPTIMIZATION
-        ========================================= */
-
-        async function runOptimization() {
-
-            hideError();
-
-
-            const studentName =
-                studentNameInput.value.trim();
-
-
-            const hours =
-                Number(availableHoursInput.value) || 0;
-
-            const minutes =
-                Number(availableMinutesInput.value) || 0;
-
-
-            /* VALIDATE AVAILABLE TIME */
-
-            if (minutes < 0 || minutes > 59) {
-
-                showError(
-                    "Available time minutes must be between 0 and 59."
-                );
-
-                availableMinutesInput.focus();
-
-                return;
-
-            }
-
-
-            const availableTime =
-                hours * 60 + minutes;
-
-
-            if (availableTime <= 0) {
-
-                showError(
-                    "Please enter the amount of time you have."
-                );
-
-                availableHoursInput.focus();
-
-                return;
-
-            }
-
-
-            /* VALIDATE ASSIGNMENTS */
-
-            if (assignments.length === 0) {
-
-                showError(
-                    "Please add at least one assignment."
-                );
-
-                return;
-
-            }
-
-
-            /* CHECK WHETHER ASSIGNMENT FITS */
-
-            const possibleAssignments =
-                assignments.filter(
-                    item => item.time <= availableTime
-                );
-
-
-            if (possibleAssignments.length === 0) {
-
-                showError(
-                    "None of the assignments can be completed within your available study time."
-                );
-
-                return;
-
-            }
-
-
-            /* LOADING STATE */
-
-            calculateBtn.disabled = true;
-
-            calculateBtn.innerHTML = `
-
-                <span
-                    class="spinner-border spinner-border-sm me-2"
-                ></span>
-
-                Calculating Optimal Plan...
+                </div>
 
             `;
 
-
-            try {
-
-                /* =====================================
-                   SEND DATA TO BACKEND
-                ===================================== */
-
-                const response =
-                    await fetch(
-                        "/api/optimize",
-                        {
-                            method: "POST",
-
-                            headers: {
-                                "Content-Type":
-                                    "application/json"
-                            },
-
-                            body: JSON.stringify({
-
-                                studentName:
-                                    studentName,
-
-                                maxTime:
-                                    availableTime,
-
-                                assignments:
-                                    assignments
-
-                            })
-
-                        }
-                    );
+            return;
+        }
 
 
-                const data =
-                    await response.json();
+        assignments.forEach((item, index) => {
+
+            const efficiency =
+                (Number(item.marks) /
+                (Number(item.time) / 60)).toFixed(1);
 
 
-                if (!response.ok || !data.success) {
+            list.innerHTML += `
 
-                    throw new Error(
-                        data.message ||
-                        "Optimization failed."
-                    );
+                <div class="assignment-item">
 
-                }
+                    <div class="assignment-info">
+
+                        <div class="assignment-name">
+
+                            ${escapeHtml(item.name)}
+
+                        </div>
+
+                        <div class="assignment-meta">
+
+                            <i class="bi bi-clock me-1"></i>
+
+                            ${formatTime(item.time)}
+
+                            &nbsp; • &nbsp;
+
+                            <i class="bi bi-star me-1"></i>
+
+                            ${item.marks} marks
+
+                        </div>
+
+                    </div>
 
 
-                /* =====================================
-                   SHOW RESULT
-                ===================================== */
+                    <div class="d-flex align-items-center gap-2">
 
-                renderResults(data);
+                        <span class="efficiency-pill">
 
-            }
+                            ${efficiency} marks/hr
 
-            catch (error) {
+                        </span>
 
-                console.error(error);
 
-                showError(
-                    error.message ||
-                    "Unable to connect to the server."
+                        <button
+                            class="delete-btn"
+                            onclick="removeAssignment(${index})"
+                            title="Remove assignment"
+                        >
+
+                            <i class="bi bi-x-lg"></i>
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            `;
+
+        });
+
+    }
+
+
+    /* ==========================================
+       ADD ASSIGNMENT
+    ========================================== */
+
+    function addAssignment() {
+
+        const name =
+            document.getElementById("name").value.trim();
+
+        const hours =
+            Number(document.getElementById("timeHours").value) || 0;
+
+        const minutes =
+            Number(document.getElementById("timeMinutes").value) || 0;
+
+        const marks =
+            Number(document.getElementById("marks").value);
+
+
+        if (!name) {
+
+            alert("Please enter an assignment name.");
+
+            return;
+
+        }
+
+
+        if (hours < 0 || minutes < 0) {
+
+            alert("Please enter a valid assignment time.");
+
+            return;
+
+        }
+
+
+        if (minutes > 59) {
+
+            alert("Minutes must be between 0 and 59.");
+
+            return;
+
+        }
+
+
+        const totalMinutes =
+            (hours * 60) + minutes;
+
+
+        if (totalMinutes <= 0) {
+
+            alert("Please enter a valid assignment time.");
+
+            return;
+
+        }
+
+
+        if (!marks || marks <= 0) {
+
+            alert("Please enter valid expected marks.");
+
+            return;
+
+        }
+
+
+        assignments.push({
+
+            name: name,
+
+            time: totalMinutes,
+
+            marks: marks
+
+        });
+
+
+        renderList();
+
+
+        document.getElementById("name").value = "";
+
+        document.getElementById("timeHours").value = "";
+
+        document.getElementById("timeMinutes").value = "";
+
+        document.getElementById("marks").value = "";
+
+
+        document.getElementById("name").focus();
+
+    }
+
+
+    /* ==========================================
+       REMOVE ASSIGNMENT
+    ========================================== */
+
+    function removeAssignment(index) {
+
+        assignments.splice(index, 1);
+
+        renderList();
+
+    }
+
+
+    /* ==========================================
+       OPTIMIZATION
+       BACKEND RECEIVES TIME IN MINUTES
+    ========================================== */
+
+    async function runOptimization() {
+
+        const hours =
+            Number(document.getElementById("maxHours").value) || 0;
+
+        const minutes =
+            Number(document.getElementById("maxMinutes").value) || 0;
+
+
+        if (minutes > 59) {
+
+            alert("Minutes must be between 0 and 59.");
+
+            return;
+
+        }
+
+
+        const W =
+            (hours * 60) + minutes;
+
+
+        if (W <= 0) {
+
+            alert("Please enter a valid available study time.");
+
+            return;
+
+        }
+
+
+        if (assignments.length === 0) {
+
+            alert("Please add at least one assignment.");
+
+            return;
+
+        }
+
+
+        const button =
+            document.getElementById("calculateBtn");
+
+
+        /* Loading */
+
+        button.disabled = true;
+
+        button.innerHTML = `
+
+            <span class="loading-spinner"></span>
+
+            Optimizing...
+
+        `;
+
+
+        try {
+
+            const response =
+                await fetch(
+                    "/api/optimize",
+                    {
+
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+
+                        body: JSON.stringify({
+
+                            maxTime: W,
+
+                            assignments: assignments
+
+                        })
+
+                    }
                 );
 
-            }
 
-            finally {
-
-                calculateBtn.disabled = false;
-
-                calculateBtn.innerHTML = `
-
-                    <i class="bi bi-magic me-2"></i>
-
-                    Calculate Optimal Study Plan
-
-                `;
-
-            }
-
-        }
+            const result =
+                await response.json();
 
 
-        /* =========================================
-           RENDER RESULTS
-        ========================================= */
+            if (!response.ok) {
 
-        function renderResults(data) {
+                alert(
+                    result.error ||
+                    "Optimization failed."
+                );
 
-            document
-                .getElementById("initialState")
-                .style.display = "none";
-
-
-            document
-                .getElementById("resultsContent")
-                .style.display = "block";
-
-
-            /* MAX MARKS */
-
-            document
-                .getElementById("maxMarks")
-                .textContent =
-                    data.totalMarks;
-
-
-            /* STUDENT */
-
-            let resultText =
-                "Optimal study selection";
-
-
-            if (data.studentName) {
-
-                resultText =
-                    `${escapeHtml(data.studentName)}'s optimized study plan`;
+                return;
 
             }
 
 
-            document
-                .getElementById("studentResultText")
-                .innerHTML =
-                    resultText;
+            /* Show results */
+
+            document.getElementById(
+                "initialState"
+            ).style.display = "none";
 
 
-            /* AVAILABLE TIME */
-
-            document
-                .getElementById("availableTime")
-                .textContent =
-                    formatTime(data.availableTime);
+            document.getElementById(
+                "resultsContent"
+            ).style.display = "block";
 
 
-            /* USED TIME */
+            /* Statistics */
 
-            document
-                .getElementById("usedTime")
-                .textContent =
-                    formatTime(data.usedTime);
-
-
-            /* REMAINING TIME */
-
-            document
-                .getElementById("remainingTime")
-                .textContent =
-                    formatTime(data.remainingTime);
+            document.getElementById(
+                "maxMarks"
+            ).textContent =
+                result.maxMarks;
 
 
-            /* SELECTED ASSIGNMENTS */
+            document.getElementById(
+                "usedTime"
+            ).textContent =
+                formatTime(result.usedTime);
 
-            renderSelected(data.assignments);
+
+            document.getElementById(
+                "remainingTime"
+            ).textContent =
+                formatTime(result.remainingTime);
 
 
-            /* PROGRESS */
+            /* Progress */
 
             const percentage =
-                data.availableTime > 0
-
-                    ? Math.min(
-                        100,
-                        Math.round(
-                            (
-                                data.usedTime /
-                                data.availableTime
-                            ) * 100
-                        )
+                Math.min(
+                    100,
+                    Math.round(
+                        (result.usedTime /
+                        result.availableTime) * 100
                     )
-
-                    : 0;
-
-
-            document
-                .getElementById("timePercentage")
-                .textContent =
-                    `${percentage}%`;
+                );
 
 
-            document
-                .getElementById("timeProgress")
-                .style.width =
-                    `${percentage}%`;
+            document.getElementById(
+                "timePercentage"
+            ).textContent =
+                percentage + "%";
 
 
-            /* ALGORITHM */
-
-            document
-                .getElementById("algorithmName")
-                .textContent =
-                    data.algorithm ||
-                    "0/1 Knapsack using Dynamic Programming";
+            document.getElementById(
+                "timeProgress"
+            ).style.width =
+                percentage + "%";
 
 
-            if (data.complexity) {
-
-                document
-                    .getElementById("complexityText")
-                    .innerHTML = `
-
-                        Time Complexity:
-                        ${escapeHtml(data.complexity.time)}
-
-                        <br>
-
-                        Space Complexity:
-                        ${escapeHtml(data.complexity.space)}
-
-                    `;
-
-            }
-
-
-            /* CHART */
-
-            renderChart(data.assignments);
-
-
-            /* SCROLL TO RESULTS */
-
-            document
-                .getElementById("resultsContent")
-                .scrollIntoView({
-                    behavior: "smooth",
-                    block: "start"
-                });
-
-        }
-
-
-        /* =========================================
-           RENDER SELECTED ASSIGNMENTS
-        ========================================= */
-
-        function renderSelected(selected) {
+            /* Selected assignments */
 
             const selectedList =
                 document.getElementById(
@@ -2200,210 +1569,247 @@
                 );
 
 
+            selectedList.innerHTML = "";
+
+
             if (
-                !selected ||
-                selected.length === 0
+                !result.selected ||
+                result.selected.length === 0
             ) {
 
                 selectedList.innerHTML = `
 
-                    <div class="empty-list">
+                    <div class="alert alert-warning">
 
-                        No assignment could be selected.
+                        No assignment can fit within the
+                        available time.
 
                     </div>
 
                 `;
 
-                return;
+            } else {
 
-            }
+                result.selected.forEach(item => {
+
+                    const efficiency =
+                        (
+                            Number(item.marks) /
+                            (Number(item.time) / 60)
+                        ).toFixed(1);
 
 
-            selectedList.innerHTML =
-                selected
-                    .map(item => {
+                    selectedList.innerHTML += `
 
-                        return `
+                        <div class="selected-item">
 
-                            <div class="selected-item">
+                            <div class="selected-left">
+
+                                <div class="check-icon">
+
+                                    <i class="bi bi-check-lg"></i>
+
+                                </div>
+
 
                                 <div>
 
-                                    <div class="selected-item-name">
+                                    <div class="selected-name">
 
                                         ${escapeHtml(item.name)}
 
                                     </div>
 
-                                    <div class="selected-item-time">
 
-                                        <i class="bi bi-clock me-1"></i>
+                                    <div class="selected-meta">
 
                                         ${formatTime(item.time)}
+
+                                        &nbsp; • &nbsp;
+
+                                        ${efficiency}
+
+                                        marks/hour
 
                                     </div>
 
                                 </div>
 
+                            </div>
 
-                                <div class="selected-item-marks">
 
-                                    +${item.marks} marks
+                            <div class="selected-marks">
 
-                                </div>
+                                +${item.marks} marks
 
                             </div>
 
-                        `;
+                        </div>
 
-                    })
-                    .join("");
+                    `;
+
+                });
+
+            }
+
+
+            /* Chart */
+
+            renderChart(result.selected);
+
+
+        } catch (error) {
+
+            console.error(error);
+
+            alert(
+                "Could not connect to the GradeMax backend."
+            );
+
+        } finally {
+
+            button.disabled = false;
+
+            button.innerHTML = `
+
+                <i class="bi bi-magic me-2"></i>
+
+                Calculate Optimal Schedule
+
+            `;
+
+        }
+
+    }
+
+
+    /* ==========================================
+       CHART
+    ========================================== */
+
+    function renderChart(selected) {
+
+        const canvas =
+            document.getElementById(
+                "efficiencyChart"
+            );
+
+
+        const ctx =
+            canvas.getContext("2d");
+
+
+        if (myChart) {
+
+            myChart.destroy();
 
         }
 
 
-        /* =========================================
-           RENDER CHART
-        ========================================= */
-
-        function renderChart(selected) {
-
-            const canvas =
-                document.getElementById(
-                    "efficiencyChart"
-                );
+        const labels =
+            assignments.map(
+                assignment =>
+                    assignment.name
+            );
 
 
-            if (!canvas) {
-                return;
-            }
+        const efficiencyData =
+            assignments.map(
+                assignment =>
+                    (
+                        Number(assignment.marks) /
+                        (Number(assignment.time) / 60)
+                    ).toFixed(2)
+            );
 
 
-            if (efficiencyChart) {
-
-                efficiencyChart.destroy();
-
-            }
-
-
-            if (
-                !selected ||
-                selected.length === 0
-            ) {
-                return;
-            }
+        const selectedNames =
+            selected.map(
+                assignment =>
+                    assignment.name
+            );
 
 
-            const labels =
-                selected.map(
-                    item => item.name
-                );
+        const backgroundColors =
+            assignments.map(
+                assignment =>
+                    selectedNames.includes(
+                        assignment.name
+                    )
+                        ? "#4f46e5"
+                        : "#dbe3f0"
+            );
 
 
-            const marks =
-                selected.map(
-                    item => item.marks
-                );
+        myChart =
+            new Chart(
+                ctx,
+                {
+
+                    type: "bar",
+
+                    data: {
+
+                        labels: labels,
+
+                        datasets: [
+
+                            {
+
+                                label:
+                                    "Expected Marks per Hour",
+
+                                data:
+                                    efficiencyData,
+
+                                backgroundColor:
+                                    backgroundColors,
+
+                                borderRadius: 7,
+
+                                borderSkipped: false
+
+                            }
+
+                        ]
+
+                    },
 
 
-            efficiencyChart =
-                new Chart(
-                    canvas,
-                    {
-                        type: "bar",
+                    options: {
 
-                        data: {
+                        responsive: true,
 
-                            labels: labels,
+                        maintainAspectRatio: false,
 
-                            datasets: [
+                        plugins: {
 
-                                {
-                                    label:
-                                        "Expected Marks",
+                            legend: {
 
-                                    data:
-                                        marks,
+                                display: true,
 
-                                    borderRadius: 8,
+                                labels: {
 
-                                    backgroundColor:
-                                        "rgba(79, 70, 229, 0.80)",
+                                    usePointStyle: true,
 
-                                    borderColor:
-                                        "rgba(79, 70, 229, 1)",
-
-                                    borderWidth: 1
-
-                                }
-
-                            ]
-
-                        },
-
-                        options: {
-
-                            responsive: true,
-
-                            maintainAspectRatio: false,
-
-                            plugins: {
-
-                                legend: {
-
-                                    display: false
+                                    padding: 18
 
                                 }
 
                             },
 
-                            scales: {
 
-                                x: {
+                            tooltip: {
 
-                                    grid: {
+                                callbacks: {
 
-                                        display: false
+                                    label: function(context) {
 
-                                    },
-
-                                    ticks: {
-
-                                        color:
-                                            "#667085",
-
-                                        font: {
-
-                                            size: 11
-
-                                        }
-
-                                    }
-
-                                },
-
-                                y: {
-
-                                    beginAtZero: true,
-
-                                    grid: {
-
-                                        color:
-                                            "#edf0f5"
-
-                                    },
-
-                                    ticks: {
-
-                                        color:
-                                            "#667085",
-
-                                        font: {
-
-                                            size: 11
-
-                                        }
+                                        return (
+                                            " " +
+                                            context.raw +
+                                            " marks/hour"
+                                        );
 
                                     }
 
@@ -2411,59 +1817,83 @@
 
                             }
 
+                        },
+
+
+                        scales: {
+
+                            y: {
+
+                                beginAtZero: true,
+
+                                grid: {
+                                    color: "#eef1f5"
+                                },
+
+                                ticks: {
+                                    color: "#94a3b8"
+                                },
+
+                                title: {
+
+                                    display: true,
+
+                                    text:
+                                        "Marks per Hour"
+
+                                }
+
+                            },
+
+
+                            x: {
+
+                                grid: {
+                                    display: false
+                                },
+
+                                ticks: {
+                                    color: "#64748b"
+                                }
+
+                            }
+
                         }
-
-                    }
-                );
-
-        }
-
-
-        /* =========================================
-           ENTER KEY SUPPORT
-        ========================================= */
-
-        [
-            subjectNameInput,
-            marksInput,
-            durationHoursInput,
-            durationMinutesInput
-
-        ].forEach(input => {
-
-            input.addEventListener(
-                "keydown",
-                function(event) {
-
-                    if (
-                        event.key === "Enter"
-                    ) {
-
-                        event.preventDefault();
-
-                        addAssignment();
 
                     }
 
                 }
             );
 
-        });
+    }
 
 
-        /* =========================================
-           INITIAL RENDER
-        ========================================= */
+    /* ==========================================
+       HTML SAFETY
+    ========================================== */
 
-        renderList();
+    function escapeHtml(text) {
 
-    </script>
+        const div =
+            document.createElement("div");
+
+        div.textContent = text;
+
+        return div.innerHTML;
+
+    }
 
 
-    <!-- Bootstrap JS -->
-    <script
-        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
-    </script>
+    /* ==========================================
+       INITIAL LOAD
+    ========================================== */
+
+    renderList();
+
+    updateAvailableTimePreview();
+
+</script>
 
 </body>
 </html>
+```
